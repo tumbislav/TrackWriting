@@ -112,8 +112,17 @@ class Status(WithHistory):
     """
     Encapsulates status changes.
     """
-    codes: ClassVar[List] = ['idea', 'outlining', ' researching', 'writing', 'on hold',
+    codes: ClassVar[List] = ['idea', 'outlining', 'researching', 'writing', 'on hold',
                              'needs review' 'reviewing', 'done', 'abandoned']
+    idea: ClassVar[str] = 'idea'
+    outline: ClassVar[str] = 'outline'
+    research: ClassVar[str] = 'research'
+    writing: ClassVar[str] = 'writing'
+    on_hold: ClassVar[str] = 'on_hold'
+    needs_review: ClassVar[str] = 'needs review'
+    reviewing: ClassVar[str] = 'reviewing'
+    abandoned: ClassVar[str] = 'abandoned'
+    done: ClassVar[str] = 'done'
 
     status: str
 
