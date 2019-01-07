@@ -8,12 +8,9 @@ Configuration handler for the ucs_to_cro package.
 __author__ = 'Marko Čibej'
 
 import importlib.resources
-import logging
 import yaml
+from copy import deepcopy
 from typing import Union, List, Any
-
-
-logger = logging.getLogger('ucs2cro')
 
 
 def dict_merge(target: dict, source: dict):
@@ -25,7 +22,7 @@ def dict_merge(target: dict, source: dict):
         if key in target and isinstance(target[key], dict) and isinstance(source[key], dict):
             dict_merge(target[key], source[key])
         else:
-            target[key] = source[key]
+            target[key] = deepcopy(source[key])
 
 
 def load_yaml(file_name: str = None, resource: str = None, package: str = None) -> dict:
