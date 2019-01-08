@@ -1,0 +1,16 @@
+---
+
+statuses:
+  codes:
+    - initial
+    - unknown
+    - idea
+    - outlining
+    - researching
+    - writing
+    - on hold
+    - needs review
+    - reviewing
+    - done
+    - abandoned
+  default: initial

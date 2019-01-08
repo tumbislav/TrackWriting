@@ -137,7 +137,7 @@ class Configuration:
                     self.patch(resource=location, package=package, branch=branch + '.' + sub_branch)
             del target['__INCLUDE__']
 
-    def get_section(self, section: List[str], must_exist=False) -> Any:
+    def get_section(self, section: str, must_exist=False) -> Any:
         """
         Get a section of the configuration, potentially many levels deep.
 
@@ -146,9 +146,7 @@ class Configuration:
         :return: the section found or None
         """
         found = self.maps
-        if not isinstance(section, list):
-            section = [section]
-        for s in section:
+        for s in section.split('.'):
             if s in found:
                 found = found[s]
             else:
@@ -160,7 +158,7 @@ class Configuration:
 
         return found
 
-    def get_value(self, section: List[str], key: str, default=None) -> Any:
+    def get_value(self, section: str, key: str, default=None) -> Any:
         """
         Get a  parameter within a section.
 
@@ -170,66 +168,7 @@ class Configuration:
         :return: the value found or default
         """
         sect = self.get_section(section)
-        if sect is not None:
-            if key in sect:
-                return sect[key]
+        if sect is not None and key in sect and not isinstance(sect[key], dict):
+            return sect[key]
 
         return default
-
-    def get_rule_set(self, step: str, key: str) -> Union[str, dict]:
-        """
-        Get a rule set for a processing step.
-
-        :param step: the step for which to retrieve the rule set
-        :param key: rule set key
-        :return: a dictionary containing the rules
-        """
-        return self.get_section(['steps', step, 'rules', key], True)
-
-    def get_parameter(self, step: str, key: str, default=None) -> Any:
-        """
-        Get a parameter for the processing step. If the parameter is not defined, return the default.
-
-        :param step: the step for which to retrieve the parameter
-        :param key: parameter key
-        :param default: the value returned if the parameter is undefined
-        :return: the parameter values
-        """
-        return self.get_value(['steps', step, 'parameters'], key, default)
-
-    def set_parameter(self, step: str, key: str, value: Any) -> Any:
-        """
-        Set a parameter, to permit on-the-fly reconfiguration. If the appropriate parameters section doesn't exist,
-        an exception is thrown.
-
-        :param step: the step for which to retrieve the parameter
-        :param key: parameter key
-        :param value: the new value of the parameter
-        :return: the previous value of the parameter, if it exists
-        """
-        param_section = self.get_section(['steps', step, 'parameters'], True)
-        old_value = param_section[key] if key in param_section else None
-        param_section[key] = value
-        return old_value
-
-    def set_global(self, param: str, value: Any) -> Any:
-        """
-        Set the value of a global parameter.
-        :param param: the parameter name
-        :param value: the parameter value
-        :return: the previous value of the parameter, if any
-        """
-        previous = self.maps['GLOBAL'][param] if param in self.maps['GLOBAL'] else None
-        self.maps['GLOBAL'][param] = value
-        return previous
-
-    def get_global(self, param: str, default: Any = None) -> Any:
-        """
-        Retrieve the value of a global parameter.
-        :param param: the parameter name
-        :param default: the default value; if it is None and if the parameter is not present, an exception is raised
-        :return: the value of the parameter or the default
-        """
-        if param not in self.maps['GLOBAL'] and default is None:
-            raise YcError('Configuration.get_global, parameter {} not set and no default given'.format(param))
-        return self.maps['GLOBAL'][param] if param in self.maps['GLOBAL'] else default

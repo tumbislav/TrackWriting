@@ -49,20 +49,30 @@ class WithHistory:
                     self.consistent = False
 
         self.latest = ts
-        self.history.append({ts: self.set_current(attribute)})
+        self.history.append((ts, self.set_current(attribute)))
 
     def set_current(self, attribute: Any) -> Any:
         """
-        In subclasses, this should modify current value of the attribute and return the attribute in a
-        form appropriate for history.
+        In subclasses, this should do any value accumulation or aggregation and posibly modify the attribute,
+        then return it.
         """
         raise NotImplemented('Do not call WithHistory directly')
 
-    def fix_sequence(self):
+    def reset(self):
+        """
+        In subclasses, this should reset the initial values of accumulated attributes.
+        """
+        raise NotImplemented('Do not call WithHistory directly')
+
+    def resequence(self):
         """
         If the history is inconsistent, make it consistent.
         """
-        pass
+        self.history.sort(key=lambda x: x[0])
+        self.reset()
+        for key, attribute in self.history:
+            self.set_current(attribute)
+            self.latest = key
 
 
 class WordCount(WithHistory):
@@ -75,9 +85,7 @@ class WordCount(WithHistory):
 
     def __init__(self):
         super().__init__()
-        self.word_count = 0
-        self.decrease = 0
-        self.increase = 0
+        self.reset()
 
     @classmethod
     def from_dict(cls, source: List):
@@ -94,42 +102,48 @@ class WordCount(WithHistory):
 
         return o
 
-    def set_current(self, word_count) -> Tuple:
+    def set_current(self, counts: Tuple) -> Tuple:
         """
         Keep track of increases and decreases.
-        :param word_count: the latest word count
+        :param counts: a trio of word count, increase and decrease; only the first is used
         :return: the tuple to be processed
         """
+        word_count = counts[0]
         if word_count < self.word_count:
             self.decrease += self.word_count - word_count
         else:
             self.increase += word_count - self.word_count
         self.word_count = word_count
+
         return self.word_count, self.increase, self.decrease
+
+    def reset(self):
+        self.word_count = 0
+        self.decrease = 0
+        self.increase = 0
 
 
 class Status(WithHistory):
     """
     Encapsulates status changes.
     """
-    codes: ClassVar[List] = ['idea', 'outlining', 'researching', 'writing', 'on hold',
-                             'needs review' 'reviewing', 'done', 'abandoned']
-    idea: ClassVar[str] = 'idea'
-    outline: ClassVar[str] = 'outline'
-    research: ClassVar[str] = 'research'
-    writing: ClassVar[str] = 'writing'
-    on_hold: ClassVar[str] = 'on_hold'
-    needs_review: ClassVar[str] = 'needs review'
-    reviewing: ClassVar[str] = 'reviewing'
-    abandoned: ClassVar[str] = 'abandoned'
-    done: ClassVar[str] = 'done'
+    status_codes: ClassVar[List]
+    default_status: ClassVar[str]
 
     status: str
 
+    @classmethod
+    def configure(cls, statuses: dict):
+        cls.status_codes = statuses['codes']
+        cls.default_status = statuses['default']
+
     def __init__(self):
         super().__init__()
-        self.status = 'unknown'
+        self.reset()
 
     def set_current(self, status: str) -> str:
         self.status = status
         return status
+
+    def reset(self):
+        self.status = self.default_status
