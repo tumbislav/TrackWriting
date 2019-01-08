@@ -10,7 +10,7 @@ __author__ = 'Marko Čibej'
 import importlib.resources
 import yaml
 from copy import deepcopy
-from typing import Union, List, Any
+from typing import List, Any
 
 
 def dict_merge(target: dict, source: dict):
