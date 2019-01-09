@@ -6,7 +6,7 @@ Collects all the test files.
 """
 
 import unittest
-from test_suite.test_history import TestWordCount
+from tests.test_history import TestWordCount
 
 if __name__ == '__main__':
     unittest.main()

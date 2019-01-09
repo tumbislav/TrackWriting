@@ -6,7 +6,7 @@ Collects all the test files.
 """
 
 import unittest
-from history import WordCount
+from model.history import WordCount
 
 
 class TestWordCount(unittest.TestCase):

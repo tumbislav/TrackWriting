@@ -7,7 +7,7 @@ Main writing entities for the TrackWriting package.
 
 import datetime
 from typing import List, ClassVar
-from history import WordCount, Status
+from model.history import WordCount, Status
 
 
 class ManuscriptFile:
