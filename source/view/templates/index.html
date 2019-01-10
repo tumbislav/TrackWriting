@@ -11,28 +11,28 @@
 </head>
 <body>
     <div class="jumbotron text-center">
-      <h1>{{ user.username }} Bootstrap Page</h1>
-      <p>Resize this responsive page to see the effect!</p>
+        <h1>{{ context.focus}} focus</h1>
+        <p>{{ context.tagline }}</p>
     </div>
 
     <div class="container">
-      <div class="row">
-        <div class="col-sm-4">
-          <h3>Column 1</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+        <div class="row" id="current">
+            <form class="form-inline" action="">
+                <label for="new-count" class="mr-sm-2">First work</label>
+                <input type="number" class="form-control mr-sm-2" id="new-count">
+                <span >12.345</span>
+            </form>
         </div>
-        <div class="col-sm-4">
-          <h3>Column 2</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+        <div class="row">
+            <div class="col-sm-8">Second work</div>
+            <div class="col-sm-2">12345</div>
+            <div class="col-sm-2">12344</div>
         </div>
-        <div class="col-sm-4">
-          <h3>Column 3</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+        <div class="row">
+            <div class="col-sm-8">Third work</div>
+            <div class="col-sm-2">12345</div>
+            <div class="col-sm-2">12344</div>
         </div>
-      </div>
     </div>
 </body>
 </html>

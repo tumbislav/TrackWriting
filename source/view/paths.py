@@ -11,5 +11,5 @@ from flask import render_template
 
 @app.route('/')
 def hello_world():
-    user = {'username': 'Marko'}
-    return render_template('index.html', title='no workspace', user=user)
+    context = {'focus': 'Diary', 'tagline': 'What is happening'}
+    return render_template('index.html', title='no workspace', context=context)
