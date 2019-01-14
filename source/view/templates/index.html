@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>TrackWriting - {{ workspace }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <title>TrackWriting - {{ workspace }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="jumbotron text-center">
-        <h1>{{ context.focus}} focus</h1>
-        <p>{{ context.tagline }}</p>
-    </div>
+  <div class="jumbotron text-center">
+    <h1>{{ context.focus}} focus</h1>
+    <p>{{ context.tagline }}</p>
+  </div>
 
-    <div class="container">
-        <div class="col-md-12" style="height: 300px; overflow: scroll;">
-            <p class="float-right"><span class="table-add glyphicon glyphicon-plus">
-                <a href="#!" class="text-success">#</a></span></p>
-            <table class="table table-bordered table-striped" id="currentTable">
-                <tbody>
-                    {% for work in works %}
-                    <tr>
-                        <td>{{ work.title }}</td>
-                        <td contenteditable="true">{{ work.count }}</td>
-                        <td>{{ work.change }}</td>
-                    </tr>
-                    {% endfor  %}
-                    <tr class="hide" hidden>
-                        <td>replace</td>
-                        <td contenteditable="true">replace</td>
-                        <td>replace</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-12" style="height: 300px; overflow: scroll;">
-            <table class="table table-bordered table-striped" id="history">
-                <tbody>
-                    {% for work in works %}
-                    <tr>
-                        <td>{{ work.date_changed }}</td>
-                        <td>{{ work.title }}</td>
-                        <td>{{ work.count }}</td>
-                    </tr>
-                    {% endfor  %}
-                </tbody>
-            </table>
-        </div>
+  <div class="container">
+    <div class="col-md-12" style="height: 300px; overflow: scroll;">
+      <p class="float-right"><span class="table-add glyphicon glyphicon-plus">
+                  <a href="#!" class="text-success">#</a></span></p>
+      <table class="table table-bordered table-striped" id="currentTable">
+        <tbody>
+        {% for work in works %}
+        <tr>
+          <td>{{ work.title }}</td>
+          <td contenteditable="true">{{ work.count }}</td>
+          <td>{{ work.change }}</td>
+        </tr>
+        {% endfor  %}
+        <tr class="hide" hidden>
+          <td>replace</td>
+          <td contenteditable="true">replace</td>
+          <td>replace</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
+    <div class="col-md-12" style="height: 300px; overflow: scroll;">
+      <table class="table table-bordered table-striped" id="history">
+        <tbody>
+        {% for work in works %}
+        <tr>
+          <td>{{ work.date_changed }}</td>
+          <td>{{ work.title }}</td>
+          <td>{{ work.count }}</td>
+        </tr>
+        {% endfor  %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script>
-        $('.table-add').click(function () {
-            var $clone = $('#currentTable').find('tr.hide').clone(true).removeClass('hide').removeAttr('hidden');
-            $('#currentTable').append($clone);
-        });
-    </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script>
+    $('.table-add').click(function () {
+      var $clone = $('#currentTable').find('tr.hide').clone(true).removeClass('hide').removeAttr('hidden');
+      $('#currentTable').append($clone);
+    });
+  </script>
 </body>
 </html>
