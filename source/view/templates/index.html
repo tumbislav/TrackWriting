@@ -21,7 +21,7 @@
         {% for work in works %}
         <tr>
           <td>{{ work.title }}</td>
-          <td contenteditable="true">{{ work.count }}</td>
+          <td contenteditable="true" class="number-edit">{{ work.count }}</td>
           <td>{{ work.change }}</td>
         </tr>
         {% endfor  %}
@@ -56,6 +56,16 @@
       var $clone = $('#currentTable').find('tr.hide').clone(true).removeClass('hide').removeAttr('hidden');
       $('#currentTable').append($clone);
     });
-  </script>
+    $('.number-edit').on('keydown', function(e){
+      var originalContent = $(this).text();
+      if(e.keyCode==13){
+        $.post('/diary', {content: originalContent});
+        return false;
+      }
+      else {
+        $(this).html(originalContent + 'A');
+      }
+    });
+</script>
 </body>
 </html>

@@ -21,6 +21,10 @@ works = [{'title': 'Moby Dick', 'count': 14122, 'change': 12, 'date_changed': 'n
 
 
 @app.route('/')
-def hello_world():
+def start_page():
     context = {'focus': 'Diary', 'tagline': 'What is happening'}
     return render_template('index.html', title='no workspace', context=context, works=works)
+
+@app.route('/diary', methods=['POST'])
+def update_diary():
+    print('got something')
