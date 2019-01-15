@@ -27,11 +27,11 @@ def start_page():
     return render_template('index.html', title='no workspace', context=context, works=works)
 
 
-# API
-#
-
-
-@app.route('/diary', methods=['POST'])
+@app.route('/diary', methods=['GET','POST'])
 def update_diary():
-    retval = request.json
-    return json.dumps({'change': retval['count']}), 200, {'ContentType': 'application/json'}
+    if request.method == 'GET':
+        return
+
+    elif request.method == 'POST':
+        retval = request.json
+        return json.dumps({'change': retval['count']}), 200, {'ContentType': 'application/json'}
