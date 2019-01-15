@@ -20,9 +20,9 @@
         <tbody>
         {% for work in works %}
         <tr>
-          <td>{{ work.title }}</td>
-          <td contenteditable="true" class="number-edit">{{ work.count }}</td>
-          <td>{{ work.change }}</td>
+          <td class="work-title">{{ work.title }}</td>
+          <td contenteditable="true" class="work-count number-edit">{{ work.count }}</td>
+          <td class="work-change">{{ work.change }}</td>
         </tr>
         {% endfor  %}
         <tr class="hide" hidden>
@@ -51,21 +51,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-  <script>
-    $('.table-add').click(function () {
-      var $clone = $('#currentTable').find('tr.hide').clone(true).removeClass('hide').removeAttr('hidden');
-      $('#currentTable').append($clone);
-    });
-    $('.number-edit').on('keydown', function(e){
-      var originalContent = $(this).text();
-      if(e.keyCode==13){
-        $.post('/diary', {content: originalContent});
-        return false;
-      }
-      else {
-        $(this).html(originalContent + 'A');
-      }
-    });
-</script>
+  <script src="/static/writing.js"></script>
+<!--  <script src="{{ url_for('static', filename='writing.js') }}"></script> -->
 </body>
 </html>
