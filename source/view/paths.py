@@ -27,6 +27,10 @@ def start_page():
     return render_template('index.html', title='no workspace', context=context, works=works)
 
 
+# API
+#
+
+
 @app.route('/diary', methods=['POST'])
 def update_diary():
     retval = request.json

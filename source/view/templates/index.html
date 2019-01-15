@@ -18,17 +18,10 @@
                   <a href="#!" class="text-success">#</a></span></p>
       <table class="table table-bordered table-striped" id="currentTable">
         <tbody>
-        {% for work in works %}
-        <tr>
-          <td class="work-title">{{ work.title }}</td>
-          <td contenteditable="true" class="work-count number-edit">{{ work.count }}</td>
-          <td class="work-change">{{ work.change }}</td>
-        </tr>
-        {% endfor  %}
-        <tr class="hide" hidden>
-          <td>replace</td>
-          <td contenteditable="true">replace</td>
-          <td>replace</td>
+        <tr class="diary-row-template" hidden>
+          <td></td>
+          <td contenteditable="true"></td>
+          <td></td>
         </tr>
         </tbody>
       </table>
