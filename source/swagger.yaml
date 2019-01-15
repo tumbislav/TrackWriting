@@ -19,7 +19,7 @@ tags:
 - name: "works"
   description: "The once and future bibliography"
 - name: "publishing"
-  description: "The hiden life of manuscripts"
+  description: "The hidden life of manuscripts"
   externalDocs:
     description: "Let's see what's happening"
     url: "http://black.hole"
