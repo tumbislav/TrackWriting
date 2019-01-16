@@ -13,7 +13,7 @@ $(document).ready(function() {
     dataType: 'json',
     success: function(data){
       for (row in data){
-        addDiaryRow('current-counts', data[row]);
+        addTableRow('current-counts', data[row]);
       }}
   });
 });
@@ -46,15 +46,11 @@ function packDiaryEntry($row) {
   })
 }
 
-function addDiaryRow(table, values) {
+function addTableRow(table, values) {
     var $template = $('#' + table).find('tr.template');
     var $newRow = $template.clone(true).removeClass('template').removeAttr('hidden');
     $newRow.children().each(function(){
       $(this).html(values[$(this).attr('id')])
     })
     $template.before($newRow);
-}
-
-function mungSomething(data) {
-  alert(data.change);
 }
