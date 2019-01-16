@@ -4,6 +4,20 @@ writing.js
 @description: javascript for the front-end.
 */
 
+$(document).ready(function() {
+  $.ajax({
+    type: 'GET',
+    url: '/diary',
+    data: JSON.stringify({}),
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    success: function(data){
+      for (row in data){
+        addDiaryRow('current-counts', data[row]);
+      }}
+  });
+});
+
 $('.table-add').click(function () {addDiaryRow('None', 'null', 'void');});
 
 $('.number-edit').on('keydown',
@@ -32,15 +46,12 @@ function packDiaryEntry($row) {
   })
 }
 
-function addDiaryRow(title, count, newCount) {
-    var $template = $('#currentTable').find('tr.diary-row-template');
-    var $newRow = $template.clone(true).removeClass('diary-row-template').removeAttr('hidden');
-    /* .children.each(function(){}) */
-    var $cell = $newRow.children().first();
-    $cell.html(title);
-    $cell.next().html(count);
-    $cell = $cell.next();
-    $cell.next().html(newCount);
+function addDiaryRow(table, values) {
+    var $template = $('#' + table).find('tr.template');
+    var $newRow = $template.clone(true).removeClass('template').removeAttr('hidden');
+    $newRow.children().each(function(){
+      $(this).html(values[$(this).attr('id')])
+    })
     $template.before($newRow);
 }
 

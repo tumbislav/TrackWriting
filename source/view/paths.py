@@ -30,8 +30,7 @@ def start_page():
 @app.route('/diary', methods=['GET','POST'])
 def update_diary():
     if request.method == 'GET':
-        return
-
+        return json.dumps([{'title': w['title'], 'count': w['count'], 'new-count': w['change']} for w in works]), 200, \
+                {'ContentType': 'application/json'}
     elif request.method == 'POST':
-        retval = request.json
-        return json.dumps({'change': retval['count']}), 200, {'ContentType': 'application/json'}
+        return json.dumps({'change': request.json['count']}), 200, {'ContentType': 'application/json'}
