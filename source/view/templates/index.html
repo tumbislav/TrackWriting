@@ -9,26 +9,29 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top container">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 2</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 3</a>
+      </li>
+    </ul>
+  </nav>
+
   <div class="container">
-    <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top container">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link 1</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link 2</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link 3</a>
-        </li>
-      </ul>
-    </nav>
     <div class="card-deck" style="margin-top:80px">
       {% for w in works %}
         <div class="card mb-4 card-limited">
-          <img class="card-img-top img-fluid" src="{{ url_for('static', filename='inactive-strip.png') }}" alt="strip">
+          <div class="bg-success card-header">
+            <span>{{ w.name }}</span>
+             <span class="badge badge-light">{{ w.word_count }}</span>
+          </div>
           <div class="card-body">
-            <h5>{{ w.work }}</h5>
             <table class="table table-sm table-borderless">
               <tbody>
                 <tr>
@@ -53,11 +56,13 @@
                 </tr>
                 <tr>
                   <td class="col-4 p-0"> <small class="text-muted">Count</small> </td>
-                  <td class="col-8 p-0"> <span class="card-text">{{ w.count }}</span></td>
+                  <td class="col-8 p-0"> <span class="card-text">{{ w.word_count }}</span></td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <div class="bg-secondary card-footer" style="height:25px"></div>
+
         </div>
         <!-- add row breaks depending on screen size, from 2 to 5-card rows -->
         {% if loop.index % 2 == 0 %}
