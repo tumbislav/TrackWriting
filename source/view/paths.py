@@ -9,20 +9,8 @@ import json
 from view import app
 from flask import render_template, request
 
-works = [{'title': 'Moby Dick', 'count': 14122, 'change': 12, 'date_changed': 'never'},
-         {'title': 'Tricky Dicky', 'count': 14122, 'change': 12, 'date_changed': 'never'},
-         {'title': 'Diddly Donnie', 'count': 14122, 'change': 12, 'date_changed': 'never'},
-         {'title': 'Likely Dickless', 'count': 14122, 'change': 12, 'date_changed': 'never'},
-         {'title': 'Mother Hubbard', 'count': 14122, 'change': 12, 'date_changed': 'never'},
-         {'title': 'Open Dock', 'count': 14122, 'change': 12, 'date_changed': 'never'},
-         {'title': 'Tick Tock Clock', 'count': 14122, 'change': 12, 'date_changed': 'never'},
-         {'title': '"Repent, Batman!" said Harley Quinn', 'count': 14122, 'change': 12, 'date_changed': 'never'},
-         {'title': '"Good Bait, man", replied the Count', 'count': 14122, 'change': 12, 'date_changed': 'never'}
-         ]
 
-
-
-w = [{'work':'Blog drafts','world':'','series':'','genre':'','type':'blog','status':'abandoned','count':'1610'},
+works = [{'work':'Blog drafts','world':'','series':'','genre':'','type':'blog','status':'abandoned','count':'1610'},
 {'work':'Blog posts','world':'','series':'','genre':'','type':'blog','status':'abandoned','count':''},
 {'work':'Magical Creatures','world':'Fantasy','series':'','genre':'Fantasy','type':'short story','status':'done','count':'3721'},
 {'work':'The Ontologist','world':'Fantasy','series':'','genre':'Science Fiction','type':'short story','status':'done','count':'1325'},
@@ -84,7 +72,7 @@ def start_page():
 @app.route('/diary', methods=['GET','POST'])
 def update_diary():
     if request.method == 'GET':
-        return json.dumps([{'title': w['title'], 'count': w['count'], 'new-count': w['change']} for w in works]), 200, \
+        return json.dumps([{'title': w['title'], 'count': w['count'], 'new-count': 0} for w in works]), 200, \
                 {'ContentType': 'application/json'}
     elif request.method == 'POST':
         return json.dumps({'change': request.json['count']}), 200, {'ContentType': 'application/json'}

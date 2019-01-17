@@ -5,152 +5,76 @@
   <title>TrackWriting - {{ workspace }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='writing.css') }}">
 </head>
-<body>
-  <div class="jumbotron text-center">
-    <h1>{{ context.focus}} focus</h1>
-    <p>{{ context.tagline }}</p>
-  </div>
 
+<body>
   <div class="container">
-    <div class="col-md-12" style="height: 300px; overflow: scroll; overflow-x: auto">
-      <p class="float-right"><span class="table-add glyphicon glyphicon-plus">
-                  <a href="#!" class="text-success">#</a></span></p>
-      <table class="table table-bordered table-striped" id="current-counts">
-        <tbody>
-        <tr class="template" hidden>
-          <td class="col-md-6" id="title"></td>
-          <td class="col-md-3" id="count" contenteditable="true"></td>
-          <td class="col-md-3" id="new-count"></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-      <div class="card-deck">
-        <div class="card mb-4">
+    <nav class="navbar navbar-expand-sm bg-dark fixed-top">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link 1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link 2</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link 3</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="card-deck" style="margin-top:80px">
+      {% for w in works %}
+        <div class="card mb-4 card-limited">
           <img class="card-img-top img-fluid" src="/static/500x280.png" alt="Card image cap">
           <div class="card-body">
-            <div style="height:30px text-overflow:ellipsis white-space:nowrap overflow:hidden">"Repent, Harlequin!" said the Ticktockman</div>
-            <table class="table table-sm">
+            <h5>{{ w.work }}</h5>
+            <table class="table table-sm table-borderless">
               <tbody>
                 <tr>
-                  <td class="col-md-4" style="padding:0; border:0"> <small class="text-muted">World</small> </td>
-                  <td class="col-md-8" style="padding:0; border:0"> <span class="card-text"> Moka</span></td>
+                  <td class="col-4 p-0"> <small class="text-muted">World</small> </td>
+                  <td class="col-8 p-0"> <span class="card-text">{{ w.world }}</span></td>
                 </tr>
                 <tr style="border:0">
-                  <td class="col-md-4" style="padding:0; border:0"> <small class="text-muted">Series</small> </td>
-                  <td class="col-md-8" style="padding:0; border:0"> <span class="card-text"> Sirvani</span></td>
+                  <td class="col-4 p-0"> <small class="text-muted">Series</small> </td>
+                  <td class="col-8 p-0"> <span class="card-text">{{ w.series }}</span></td>
                 </tr>
                 <tr>
-                  <td class="col-md-4" style="padding:0; border:0"> <small class="text-muted">Genre</small> </td>
-                  <td class="col-md-8" style="padding:0; border:0"> <span class="card-text"> Fantasy</span></td>
+                  <td class="col-4 p-0"> <small class="text-muted">Genre</small> </td>
+                  <td class="col-8 p-0"> <span class="card-text">{{ w.genre }}</span></td>
                 </tr>
                 <tr>
-                  <td class="col-md-4" style="padding:0; border:0"> <small class="text-muted">Type</small> </td>
-                  <td class="col-md-8" style="padding:0; border:0"> <span class="card-text"> short story</span></td>
+                  <td class="col-4 p-0"> <small class="text-muted">Type</small> </td>
+                  <td class="col-8 p-0"> <span class="card-text">{{ w.type }}</span></td>
                 </tr>
                 <tr>
-                  <td class="col-md-4" style="padding:0; border:0"> <small class="text-muted">Status</small> </td>
-                  <td class="col-md-8" style="padding:0; border:0"> <span class="card-text"> writing</span></td>
+                  <td class="col-4 p-0"> <small class="text-muted">Status</small> </td>
+                  <td class="col-8 p-0"> <span class="card-text">{{ w.type }}</span></td>
                 </tr>
                 <tr>
-                  <td class="col-md-4" style="padding:0; border:0"> <small class="text-muted">Words</small> </td>
-                  <td class="col-md-8" style="padding:0; border:0"> <span class="card-text"> 1.477</span></td>
+                  <td class="col-4 p-0"> <small class="text-muted">Count</small> </td>
+                  <td class="col-8 p-0"> <span class="card-text">{{ w.count }}</span></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <div class="card mb-4">
-          <img class="card-img-top img-fluid" src="/static/500x280.png" alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">2 Card title</h4>
-            <p class="card-text">This is a longer card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-        <div class="w-100 d-none d-sm-block d-md-none"><!-- wrap every 2 on sm--></div>
-        <div class="card mb-4">
-          <img class="card-img-top img-fluid" src="/static/500x280.png" alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">3 Card title</h4>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-              additional content. This content is a little bit longer.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-        <div class="w-100 d-none d-md-block d-lg-none"><!-- wrap every 3 on md--></div>
-        <div class="card mb-4">
-          <img class="card-img-top img-fluid" src="/static/500x280.png" alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">4 Card title</h4>
-            <p class="card-text">This is a longer card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-        <div class="w-100 d-none d-sm-block d-md-none"><!-- wrap every 2 on sm--></div>
-         <div class="w-100 d-none d-lg-block d-xl-none"><!-- wrap every 4 on lg--></div>
-        <div class="card mb-4">
-          <img class="card-img-top img-fluid" src="/static/500x280.png" alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">5 Card title</h4>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-              additional content. This content is a little bit longer.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-        <div class="w-100 d-none d-xl-block"><!-- wrap every 5 on xl--></div>
-        <div class="card mb-4">
-          <img class="card-img-top img-fluid" src="/static/500x300.png" alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">6 Card title</h4>
-            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-        <div class="w-100 d-none d-sm-block d-md-none"><!-- wrap every 2 on sm--></div>
-        <div class="w-100 d-none d-md-block d-lg-none"><!-- wrap every 3 on md--></div>
-        <div class="card mb-4">
-          <img class="card-img-top img-fluid" src="/static/500x270.png" alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">7 Card title</h4>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural lead-in to additional
-              content. This card has even longer content than the first to show that equal height action.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-        <div class="card mb-4">
-          <img class="card-img-top img-fluid" src="/static/500x300.png" alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">8 Card title</h4>
-            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-        <div class="w-100 d-none d-sm-block d-md-none"><!-- wrap every 2 on sm--></div>
-        <div class="w-100 d-none d-lg-block d-xl-none"><!-- wrap every 4 on lg--></div>
-        <div class="card mb-4">
-          <img class="card-img-top img-fluid" src="/static/500x270.png" alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">9 Card title</h4>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-        <div class="w-100 d-none d-md-block d-lg-none"><!-- wrap every 3 on md--></div>
-        <div class="card mb-4">
-          <img class="card-img-top img-fluid" src="/static/500x270.png" alt="Card image cap">
-          <div class="card-body">
-            <h4 class="card-title">10 Card title</h4>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-      </div>
+        <!-- add row breaks depending on screen size, from 2 to 5-card rows -->
+        {% if loop.index % 2 == 0 %}
+          <div class="w-100 d-none d-sm-block d-md-none"></div>
+        {% endif %}
+        {% if loop.index % 3 == 0 %}
+          <div class="w-100 d-none d-md-block d-lg-none"></div>
+        {% endif %}
+        {% if loop.index % 4 == 0 %}
+          <div class="w-100 d-none d-lg-block d-xl-none"></div>
+        {% endif %}
+        {% if loop.index % 5 == 0 %}
+          <div class="w-100 d-none d-xl-block"></div>
+        {% endif %}
+      {% endfor %}
     </div>
+  </div>
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

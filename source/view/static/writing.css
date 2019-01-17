@@ -1,0 +1,29 @@
+.limited-title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media (min-width: 576px) {
+  .card-limited {
+    max-width: calc(50% - 30px)
+  }
+}
+
+@media (min-width: 768px) {
+  .card-limited {
+    max-width: calc(33% - 30px)
+  }
+}
+
+@media (min-width: 992px) {
+  .card-limited {
+    max-width: calc(25% - 30px)
+  }
+}
+
+@media (min-width: 1200px) {
+  .card-limited {
+    max-width: calc(20% - 30px)
+  }
+}

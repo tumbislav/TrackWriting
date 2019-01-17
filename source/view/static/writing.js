@@ -4,7 +4,7 @@ writing.js
 @description: javascript for the front-end.
 */
 
-$(document).ready(function() {
+/* $(document).ready(function() {
   $.ajax({
     type: 'GET',
     url: '/diary',
@@ -16,7 +16,7 @@ $(document).ready(function() {
         addTableRow('current-counts', data[row]);
       }}
   });
-});
+});*/
 
 $('.table-add').click(function () {addDiaryRow('None', 'null', 'void');});
 
