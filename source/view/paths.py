@@ -63,10 +63,10 @@ works = [{'work':'Blog drafts','world':'','series':'','genre':'','type':'blog','
 {'work':'A Boy and his sansklat','world':'Cosmos','series':'','genre':'Science Fiction','type':'novelette','status':'writing','count':'503'},
 ]
 
+
 @app.route('/')
 def start_page():
-    context = {'focus': 'Diary', 'tagline': 'What is happening'}
-    return render_template('index.html', title='no workspace', context=context, works=works)
+    return render_template('index.html', works=works)
 
 
 @app.route('/diary', methods=['GET','POST'])
