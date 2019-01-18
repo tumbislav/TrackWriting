@@ -9,11 +9,8 @@ import json
 from view import app
 from flask import render_template, request
 
-statuses = ['done', 'abandoned', 'idea', 'outline', 'needs review', 'writing', 'reviewing', 'on hold']
-
 with open('c:\\Users\\marko\\Work-synced\\Writing\\raw-track.json', encoding='utf-8') as f:
     works = json.load(f)
-
 
 @app.route('/')
 def start_page():
@@ -26,12 +23,10 @@ def update_diary():
         return json.dumps([{'title': w['name'], 'count': w['word-count'], 'new-count': 0} for w in works]), 200, \
                 {'ContentType': 'application/json'}
     elif request.method == 'POST':
-        return json.dumps({'change': request.json['count']}), 200, {'ContentType': 'application/json'}
+        return json.dumps(works), 200, {'ContentType': 'application/json'}
 
 
-@app.route('/classifiers/<classifier_set>', methods=['GET'])
-def update_classifiers(classifier_set):
-    if classifier_set == 'types':
-        return json.dumps(statuses), 200, {'ContentType': 'application/json'}
-    else:
-        pass
+@app.route('/cards', methods=['GET'])
+def get_cards():
+    return json.dumps(works), 200, {'ContentType': 'application/json'}
+
