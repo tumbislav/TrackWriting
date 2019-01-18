@@ -4,19 +4,16 @@ writing.js
 @description: javascript for the front-end.
 */
 
-/* $(document).ready(function() {
+$(document).ready(function() {
   $.ajax({
     type: 'GET',
-    url: '/diary',
+    url: '/cards',
     data: JSON.stringify({}),
     contentType: 'application/json; charset=utf-8',
     dataType: 'json',
-    success: function(data){
-      for (row in data){
-        addTableRow('current-counts', data[row]);
-      }}
+    success: function(data){loadCards(data);}
   });
-});*/
+});
 
 $('.table-add').click(function () {addDiaryRow('None', 'null', 'void');});
 
@@ -47,10 +44,24 @@ function packDiaryEntry($row) {
 }
 
 function addTableRow(table, values) {
-    var $template = $('#' + table).find('tr.template');
-    var $newRow = $template.clone(true).removeClass('template').removeAttr('hidden');
+    let $template = $('#' + table).find('tr.template');
+    let $newRow = $template.clone(true).removeClass('template').removeAttr('hidden');
     $newRow.children().each(function(){
       $(this).html(values[$(this).attr('id')])
     })
     $template.before($newRow);
 }
+
+function loadCards(data) {
+  var $CT = $('#card-template');
+  let $card_template = $('#card-template').content;
+  let $card_container = $('#full-deck');
+  for (row in data) {
+    let $newCard = $card_template.clone();
+    let card_contents = data[row];
+    $newCard.find('#work-title').html(card_contents.work);
+    $newCard.find('#count-top').html(card_contents.count);
+    $card_container.children().last().after($newCard);
+  }
+}
+

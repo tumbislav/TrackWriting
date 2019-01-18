@@ -128,7 +128,12 @@ def update_diary():
         return json.dumps([{'title': w['title'], 'count': w['count'], 'new-count': 0} for w in works]), 200, \
                 {'ContentType': 'application/json'}
     elif request.method == 'POST':
-        return json.dumps({'change': request.json['count']}), 200, {'ContentType': 'application/json'}
+        return json.dumps(works), 200, {'ContentType': 'application/json'}
+
+
+@app.route('/cards', methods=['GET'])
+def get_crds():
+    return json.dumps(works), 200, {'ContentType': 'application/json'}
 
 
 @app.route('/classifiers/<classifier_set>', methods=['GET'])

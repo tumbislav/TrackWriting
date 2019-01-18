@@ -9,6 +9,57 @@
 </head>
 
 <body>
+  <template id="card-template">
+    <div class="card mb-4 card-limited">
+      <div class="card-header bg-success">
+        <div class="badge badge-light float-right ml-1" id="count-top"></div>
+        <span id="work-title"></span>
+       </div>
+      <div class="card-body pt-1 pb-0">
+        <table class="table table-sm table-borderless mb-2">
+          <tbody>
+            <tr>
+              <td class="col-4 p-0"><small class="text-muted" id="world-title"></small></td>
+              <td class="col-8 p-0"><span class="card-text" id="world"></span></td>
+            </tr>
+            <tr>
+              <td class="col-4 p-0"><small class="text-muted" id="series-title"></small></td>
+              <td class="col-8 p-0"><span class="card-text" id="series"></span></td>
+            </tr>
+            <tr>
+              <td class="col-4 p-0"><small class="text-muted" id="genre-title"></small></td>
+              <td class="col-8 p-0"><span class="card-text" id="genre"></span></td>
+            </tr>
+            <tr>
+              <td class="col-4 p-0"><small class="text-muted" id="type-title"></small></td>
+              <td class="col-8 p-0"><span class="card-text" id="type"></span></td>
+            </tr>
+            <tr>
+              <td class="col-4 p-0"><small class="text-muted" id="status-title"></small></td>
+              <td class="col-8 p-0"><span class="card-text" id="status"></span></td>
+            </tr>
+            <tr>
+              <td class="col-4 p-0"><small class="text-muted" id="count-title"></small></td>
+              <td class="col-8 p-0"><span class="card-text" id="count"></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </template>
+  <template id="card-break-2">
+    <div class="w-100 d-none d-sm-block d-md-none"></div>
+  </template>
+  <template id="card-break-3">
+    <div class="w-100 d-none d-md-block d-lg-none"></div>
+  </template>
+  <template id="card-break-4">
+    <div class="w-100 d-none d-lg-block d-xl-none"></div>
+  </template>
+  <template id="card-break-5">
+    <div class="w-100 d-none d-xl-block"></div>
+  </template>
+
   <div class="container">
     <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top container">
       <ul class="navbar-nav">
@@ -23,15 +74,15 @@
         </li>
       </ul>
     </nav>
-    <div class="card-deck" style="margin-top:80px">
+    <div class="card-deck" id="full-deck" style="margin-top:80px">
       {% for w in works %}
         <div class="card mb-4 card-limited">
           <div class="card-header bg-success">
-            <div class="badge badge-light float-right">{{ w.count }}</div>
+            <div class="badge badge-light float-right ml-1">{{ w.count }}</div>
             {{ w.work }}
            </div>
-          <div class="card-body">
-            <table class="table table-sm table-borderless">
+          <div class="card-body pt-1 pb-0">
+            <table class="table table-sm table-borderless mb-2">
               <tbody>
                 <tr>
                   <td class="col-4 p-0"> <small class="text-muted">World</small> </td>
