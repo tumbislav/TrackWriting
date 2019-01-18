@@ -132,7 +132,7 @@ def update_diary():
 
 
 @app.route('/classifiers/<classifier_set>', methods=['GET'])
-def update_diary(classifier_set):
+def update_classifiers(classifier_set):
     if classifier_set == 'types':
         return json.dumps(statuses), 200, {'ContentType': 'application/json'}
     else:

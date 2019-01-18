@@ -26,9 +26,11 @@
     <div class="card-deck" style="margin-top:80px">
       {% for w in works %}
         <div class="card mb-4 card-limited">
-          <img class="card-img-top img-fluid" src="{{ url_for('static', filename='inactive-strip.png') }}" alt="strip">
+          <div class="card-header bg-success">
+            <div class="badge badge-light float-right">{{ w.count }}</div>
+            {{ w.work }}
+           </div>
           <div class="card-body">
-            <h5>{{ w.work }}</h5>
             <table class="table table-sm table-borderless">
               <tbody>
                 <tr>
