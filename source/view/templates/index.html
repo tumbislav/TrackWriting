@@ -9,53 +9,6 @@
 </head>
 
 <body>
-  <div hidden id="template">
-    <div class="card mb-4 card-limited" id="card-template">
-      <div class="card-header bg-success">
-        <div class="badge badge-light float-right ml-1" id="count-top"></div>
-        <span id="work-title"></span>
-       </div>
-      <div class="card-body pt-2 pb-0">
-        <table class="table table-sm table-borderless mb-3">
-          <tbody>
-            <tr>
-              <td class="col-4 p-0"><small class="text-muted">World</small></td>
-              <td class="col-8 p-0"><span class="card-text" id="world"></span></td>
-            </tr>
-            <tr style="border:0">
-              <td class="col-4 p-0"><small class="text-muted">Series</small></td>
-              <td class="col-8 p-0"><span class="card-text" id="series"></span></td>
-            </tr>
-            <tr>
-              <td class="col-4 p-0"><small class="text-muted">Genre</small></td>
-              <td class="col-8 p-0"><span class="card-text" id="genre"></span></td>
-            </tr>
-            <tr>
-              <td class="col-4 p-0"><small class="text-muted">Type</small></td>
-              <td class="col-8 p-0"><span class="card-text" id="type"></span></td>
-            </tr>
-            <tr>
-              <td class="col-4 p-0"><small class="text-muted">Status</small></td>
-              <td class="col-8 p-0"><span class="card-text" id="status"></span></td>
-            </tr>
-            <tr>
-              <td class="col-4 p-0"><small class="text-muted">Count</small></td>
-              <td class="col-8 p-0"><span class="card-text" id="count"></span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-
-    <div class="w-100 d-none d-sm-block d-md-none" id="card-sep-2"></div>
-
-    <div class="w-100 d-none d-md-block d-lg-none" id="card-sep-3"></div>
-
-    <div class="w-100 d-none d-lg-block d-xl-none" id="card-sep-4"></div>
-
-    <div class="w-100 d-none d-xl-block" id="card-sep-5"></div>
-  </div>
 
   <div class="container">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top container">
@@ -80,6 +33,63 @@
     </nav>
 
     <div class="card-deck" id="full-deck" style="margin-top:80px">
+
+      <!-- templates for card deck elements -->
+
+      <!-- the work card -->
+      <template id="card-template">
+        <div class="card mb-4 card-limited">
+          <div class="card-header bg-success">
+            <div class="badge badge-light float-right ml-1" id="count-top"></div>
+            <span id="work-title"></span>
+           </div>
+          <div class="card-body pt-2 pb-0">
+            <table class="table table-sm table-borderless mb-3">
+              <tbody>
+                <tr>
+                  <td class="col-4 p-0"><small class="text-muted">World</small></td>
+                  <td class="col-8 p-0"><span class="card-text" id="world"></span></td>
+                </tr>
+                <tr style="border:0">
+                  <td class="col-4 p-0"><small class="text-muted">Series</small></td>
+                  <td class="col-8 p-0"><span class="card-text" id="series"></span></td>
+                </tr>
+                <tr>
+                  <td class="col-4 p-0"><small class="text-muted">Genre</small></td>
+                  <td class="col-8 p-0"><span class="card-text" id="genre"></span></td>
+                </tr>
+                <tr>
+                  <td class="col-4 p-0"><small class="text-muted">Type</small></td>
+                  <td class="col-8 p-0"><span class="card-text" id="type"></span></td>
+                </tr>
+                <tr>
+                  <td class="col-4 p-0"><small class="text-muted">Status</small></td>
+                  <td class="col-8 p-0"><span class="card-text" id="status"></span></td>
+                </tr>
+                <tr>
+                  <td class="col-4 p-0"><small class="text-muted">Count</small></td>
+                  <td class="col-8 p-0"><span class="card-text" id="count"></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </template>
+
+      <!-- breakpoints that must be inserted every 2,3,4 and 5 cards -->
+      <template id="card-sep-2">
+        <div class="w-100 d-none d-sm-block d-md-none"></div>
+      </template>
+      <template  id="card-sep-3">
+        <div class="w-100 d-none d-md-block d-lg-none"></div>
+      </template>
+      <template  id="card-sep-4">
+        <div class="w-100 d-none d-lg-block d-xl-none"></div>
+      </template>
+      <template id="card-sep-5">
+        <div class="w-100 d-none d-xl-block"></div>
+      </template>
+
     </div>
   </div>
 
