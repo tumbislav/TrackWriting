@@ -9,7 +9,7 @@ import json
 from view import app
 from flask import render_template, request
 
-with open('c:\\Users\\marko\\Work-synced\\Writing\\raw-track.json', encoding='utf-8') as f:
+with open('c:\\Users\\mcibej\\Work-synced\\Writing\\raw-track.json', encoding='utf-8') as f:
     works = json.load(f)
 
 @app.route('/')
@@ -28,5 +28,9 @@ def update_diary():
 
 @app.route('/cards', methods=['GET'])
 def get_cards():
+    return json.dumps(works), 200, {'ContentType': 'application/json'}
+
+@app.route('/all', methods=['GET'])
+def get_all():
     return json.dumps(works), 200, {'ContentType': 'application/json'}
 

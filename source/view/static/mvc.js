@@ -36,36 +36,6 @@ var mvc = (function mvc(simple) {
 
 
 /**
- * Simple MVC, 2016 Todd Zebert
- * Model module
- */
-var mvc = (function mvc(simple) { // eslint-disable-line no-redeclare, no-shadow
-  'use strict';
-
-  simple.Model = function SimpleModel(data) {
-    this.data = data;
-
-    this.onSet = new simple.Event(this);
-  };
-
-  // define getters and setters
-  simple.Model.prototype = {
-    // get just returns the value
-    get() {
-      return this.data;
-    },
-    // sets the value and notifies any even listeners
-    set(data) {
-      this.data = data;
-      this.onSet.notify({ data: data });
-    },
-  };
-
-  return simple;
-})(mvc || {}); // eslint-disable-line no-use-before-define, no-redeclare, no-shadow
-
-
-/**
  * A 1-way View Module
  */
 var mvc = (function mvc(simple) { // eslint-disable-line no-redeclare, no-shadow
