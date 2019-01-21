@@ -11,7 +11,6 @@
  * Server represents the server connection and the sum of all the data. It implements the following:
  *   reload - clears everything and retrieves a fresh version of the data
  *   onReload - event that is triggered after a reload
- *   setLanguage
  * Works is a list of all works, versions and parts. It implements:
  *   getWorks - get a list of works, potentially with all parts, potentially with full histories
  *   addWork - add a new work
@@ -19,6 +18,9 @@
  *   addPart - add a part or a file to a work or a part
  *   modify* - change the time-independent attributes of a work, version or part
  *   update* - update the history of a time dependent attribute
+ * Settings
+ *   getTranslations
+ *   getClassifier
  */
 var mvc = (function mvc(self, $) {
   'use strict';
