@@ -6,6 +6,12 @@
  * https://medium.com/@ToddZebert/a-walk-through-of-a-simple-javascript-mvc-implementation-c188a69138dc.
 */
 
+
+/**
+ * Presenter - not mvc but mvp
+ * handles translation of strings, converts diaries to timeline data
+ */
+
 var mvc = (function mvc(self, $) {
   'use strict';
 

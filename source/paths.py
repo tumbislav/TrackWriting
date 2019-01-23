@@ -12,6 +12,7 @@ from flask import render_template, request
 with open('c:\\Users\\mcibej\\Work-synced\\Writing\\raw-track.json', encoding='utf-8') as f:
     works = json.load(f)
 
+
 @app.route('/')
 def start_page():
     return render_template('index.html', works=works)
@@ -29,6 +30,7 @@ def update_diary():
 @app.route('/cards', methods=['GET'])
 def get_cards():
     return json.dumps(works), 200, {'ContentType': 'application/json'}
+
 
 @app.route('/all', methods=['GET'])
 def get_all():
