@@ -16,7 +16,7 @@ create table works (
   id integer primary key,
   name text not null,
   level text not null,   -- collection, work, version or part
-  parent integer,        -- when
+  parent integer,        -- when the work has a parent
   json text not null
 );
 
@@ -30,5 +30,11 @@ create table history (
 );
 
 create table collections (
-
+  id integer primary key,
+  collection_name text not null,
+  json text not null
 );
+
+create table i18 (
+
+)
