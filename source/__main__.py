@@ -5,10 +5,10 @@
 Entry point to the TrackWriting package.
 """
 
-from database import dump_to_sqlite
+from database import Database
 
 
 # flask_app.run()
 
-dump_to_sqlite()
+db = Database()
 
