@@ -1,6 +1,6 @@
 # encoding: utf-8
 # author: Marko Čibej
-# file: dbs.py
+# file: database.py
 """
 Wraps a single database and exposes only those operations that we need.
 """
@@ -9,23 +9,11 @@ import json
 import os
 import sqlite3
 from typing import ClassVar
+import sql
 
 
 class Database:
-    initialize_sql: ClassVar[str] = '''
-        create table works (
-            id integer primary key, 
-            work text not null
-        );
-        create table history (
-            id integer primary key, 
-            history_work integer not null,
-            foreign key(history_work) references works(id),
-            value_type text,
-            timestamp text,
-            value text
-        );
-    '''
+
     insert_work_sql: ClassVar[str] = 'insert into works (work) values (?)'
 
     con: sqlite3.Connection
@@ -42,7 +30,7 @@ class Database:
         self.con = sqlite3.connect(file_name)
         if not db_exists:
             cursor = self.con.cursor()
-            cursor.execute(self.initialize_sql)
+            cursor.execute(sql.upgrade_db['0.0'])
             self.con.commit()
 
     def close_db(self):
