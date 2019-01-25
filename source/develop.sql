@@ -3,14 +3,14 @@
 
 create table meta (
   id integer primary key,
-  database_version text,
+  database_version text not null,
   system_version text,
   upgraded_on text,
   last_saved text,
   is_current text
 );
 
-insert into meta (database_version, system_version) values ('0.0');
+insert into meta (database_version, system_version) values ('0.0', strftime('%Y-%m-%dT%H:%M:%S', 'now'),  );
 
 create table works (
   id integer primary key,
@@ -29,9 +29,9 @@ create table history (
   foreign key(history_work) references works(id)
 );
 
-create table collections (
+create table classifiers (
   id integer primary key,
-  collection_name text not null,
+  classifier_name text not null,
   json text not null
 );
 
@@ -39,4 +39,4 @@ create table i18n (
   id integer primary key,
   language text,
   json text not null
-)
+);
