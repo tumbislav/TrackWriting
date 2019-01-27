@@ -7,11 +7,9 @@
 */
 
 var main = function() {
-  var worksModel = new mvc.Works();
-  var cardView = new mvc.Cards(worksModel, $('#full-deck'));
-  var cardController = new mvc.CardDealer(worksModel, cardView);
+  var cardView = new writing.CardsView($('#full-deck'));
 
-  worksModel.reload();
+  worksAdapter.reload();
 };
 
 $(document).ready(main);

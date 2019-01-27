@@ -40,3 +40,5 @@ create table i18n (
   language text,
   json text not null
 );
+
+select max(database_version) from (select database_version, is_current from meta union select '0.0', 'true') where is_current='true';

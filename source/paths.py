@@ -6,16 +6,19 @@ Temporary collection of Flask-related stuff. To be refactored.
 """
 
 import json
-from view import app
-from flask import render_template, request
+from flask import Flask, render_template, request
+from database import Database
+from helper import FILE_PATH
 
-with open('c:\\Users\\mcibej\\Work-synced\\Writing\\raw-track.json', encoding='utf-8') as f:
-    works = json.load(f)
+
+db = Database(FILE_PATH)
+
+app = Flask(__name__)
 
 
 @app.route('/')
 def start_page():
-    return render_template('index.html', works=works)
+    return render_template('index.html')
 
 
 @app.route('/diary', methods=['GET', 'POST'])
@@ -27,12 +30,7 @@ def update_diary():
         return json.dumps(works), 200, {'ContentType': 'application/json'}
 
 
-@app.route('/cards', methods=['GET'])
-def get_cards():
-    return json.dumps(works), 200, {'ContentType': 'application/json'}
-
-
-@app.route('/all', methods=['GET'])
-def get_all():
-    return json.dumps(works), 200, {'ContentType': 'application/json'}
+@app.route('/works', methods=['GET'])
+def get_works():
+    return db.get_works(), 200, {'ContentType': 'application/json'}
 

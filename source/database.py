@@ -8,30 +8,24 @@ Wraps a single database and exposes only those operations that we need.
 import json
 import os
 import sqlite3
-from typing import ClassVar
 import sql
+from helper import APP_VERSION
 
 
 class Database:
 
-    insert_work_sql: ClassVar[str] = 'insert into works (work) values (?)'
-
     con: sqlite3.Connection
 
-    def open_db(self, file_name: str):
+    def __init__(self, file_name: str, auto_upgrade: bool = True):
         """
-        Opens or creates a database. This class only wraps a single database, so if one is already open,
-        this method raises an exception.
+        Opens or creates a database.
         :param file_name: the file to use
+        :param auto_upgrade: whether to upgrade the database automatically; overriden when the database is new
         """
-        if self.con is not None:
-            raise Exception('Attempting to open a database when one is already open.')
-        db_exists = os.path.isfile(file_name)
-        self.con = sqlite3.connect(file_name)
-        if not db_exists:
-            cursor = self.con.cursor()
-            cursor.execute(sql.upgrade_db['0.0'])
-            self.con.commit()
+        new_db = not os.path.isfile(file_name)
+        self.con = sqlite3.connect(file_name, check_same_thread=False)
+        if auto_upgrade or new_db:
+            self.upgrade_db()
 
     def close_db(self):
         """
@@ -44,15 +38,53 @@ class Database:
         self.con = None
 
     def load_from_json(self, json_file: str):
+        """
+        Loads the contents of a json storage file into the database.
+        :param json_file: the name of the json file
+        """
         with open(json_file, 'r') as f:
             d = json.load(f)
-        cursor = self.con.cursor()
+        cur = self.con.cursor()
+        cur.executescript(sql.clear_database)
         for w in d['works']:
-            cursor.execute(self.insert_work_sql,
-                           (json.dumps({'name': w['name'],
-                                        'world': w['world'],
-                                        'series': w['series'],
-                                        'genre': w['genre'],
-                                        'type': w['type'],
-                                        'status': w['status'],
-                                        'word_count': w['word_count']}),))
+            json_string = json.dumps({'name': w['name'],
+                                      'world': w['world'],
+                                      'series': w['series'],
+                                      'genre': w['genre'],
+                                      'type': w['type'],
+                                      'status': w['status'],
+                                      'word_count': w['word_count']})
+            cur.execute(sql.insert_work, {'name': w['name'],
+                                          'level': 'work',
+                                          'parent': None,
+                                          'json': json_string})
+        for name, definition in d['classifiers'].items():
+            cur.execute(sql.insert_classifier, {'name': name, 'json': json.dumps(definition)})
+        self.con.commit()
+
+    def upgrade_db(self):
+        """
+        Bring the database version up to current.
+        """
+        cur = self.con.cursor()
+        if cur.execute(sql.is_initialized).fetchone() is None:
+            current_version = '0.0'
+        else:
+            current_version = cur.execute(sql.get_db_version).fetchone()[0]
+        while current_version in sql.upgrade_db:
+            target_version = sql.upgrade_db[current_version]['target-version']
+            cur.executescript(sql.upgrade_db[current_version]['ddl'])
+            cur.execute(sql.invalidate_db_version)
+            cur.execute(sql.update_db_version, {'db_version': target_version, 'app_version': APP_VERSION})
+            self.con.commit()
+            current_version = target_version
+
+    def get_works(self, depth: int = 0) -> str:
+        """
+        Retrieve a list of works, from level 0 to depth
+        :param depth: the level at which to stop
+        :return: a json string with the selected works
+        """
+
+        s = ','.join([_[0] for _ in self.con.execute(sql.get_works, {'level': depth}).fetchall()]).join(['[', ']'])
+        return s

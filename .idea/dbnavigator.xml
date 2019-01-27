@@ -16,7 +16,7 @@
       <scope value="GLOBAL" />
       <destination value="FILE" />
       <format value="EXCEL" />
-      <charset value="windows-1250" />
+      <charset value="windows-31j" />
     </export-instructions>
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
@@ -40,7 +40,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
-    <mapping file-url="file://$PROJECT_DIR$/source/develop.sql" connection-id="virtual-sqlite-connection" session-id="MAIN" current-schema="ROOT" />
+    <mapping file-url="file://$PROJECT_DIR$/source/develop.sql" connection-id="virtual-sqlite-connection" session-id="MAIN" current-schema="" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />

@@ -1,32 +1,43 @@
 /**
  * view.js
  * @author: Marko Čibej
- * @description: a view, for the moment
- * inspired by simpleMVC by Todd Zebert
- * https://medium.com/@ToddZebert/a-walk-through-of-a-simple-javascript-mvc-implementation-c188a69138dc.
+ * @description: all the views, for the time being
 */
 
 
 /**
- * A 2-way View Module
+ * The cards view
  */
-var mvc = (function mvc(self, $) {
+var writing = (function writing(self, $) {
   'use strict';
 
   // card deck
-  self.Cards = function CardView(model, deck) {
-    this.model = model;
+  self.CardsView = function(deck) {
+    // locate and save the templates for DOM elements we use
     this.deck = deck;
     this.card_template = $(this.deck.find('#card-template').html());
     this.sep2_template = $(this.deck.find('#card-sep-2').html());
     this.sep3_template = $(this.deck.find('#card-sep-3').html());
     this.sep4_template = $(this.deck.find('#card-sep-4').html());
     this.sep5_template = $(this.deck.find('#card-sep-5').html());
+
+    // publicise the events we trigger
+    this.onAdd = new self.Event(this);
+    this.onUpdate = new self.Event(this);
+    this.onDelete = new self.Event(this);
+
+    // initialize the adapter and store it
+    this.adapter = new self.Works();
+    // wire up the events we are interested in
+    if (this.adapter.hasOwnProperty('onReload')) {
+      this.adapter.onReload.attach( (sender, data) => this.redisplay() ) }
   };
 
-  self.Cards.prototype = {
-    show() {
-      let works = this.model.getWorks();
+  self.CardsView.prototype = {
+    redisplay() {
+      let works = this.adapter.getWorks();
+      this.deck.empty()
+
       for (let [row, work] of works.entries()) {
         let newCard = this.card_template.clone();
         newCard.find('#work-title').html(work.name);
@@ -48,4 +59,4 @@ var mvc = (function mvc(self, $) {
   };
 
   return self;
-})(mvc || {}, jQuery);
+})(writing || {}, jQuery);

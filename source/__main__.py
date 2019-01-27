@@ -5,10 +5,15 @@
 Entry point to the TrackWriting package.
 """
 
-from database import Database
+from paths import app
+import webbrowser
+import random
 
 
-# flask_app.run()
+port = 5000  # + random.randint(0, 999)
+url = "http://127.0.0.1:{0}".format(port)
 
-db = Database()
+# threading.Timer(1.25, lambda: webbrowser.open(url)).start()
 
+# webbrowser.open(url)
+app.run(port=port, debug=False)

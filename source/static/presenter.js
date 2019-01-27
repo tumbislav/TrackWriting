@@ -12,19 +12,19 @@
  * handles translation of strings, converts diaries to timeline data
  */
 
-var mvc = (function mvc(self, $) {
+var writing = (function writing(self) {
   'use strict';
 
-  self.CardDealer = function CardController(model, view) {
+  self.Dealer = function(model, view) {
 
     this.model = model;
     this.view = view;
 
-    if (this.model.hasOwnProperty('onReload')) {
+/*    if (this.model.hasOwnProperty('onReload')) {
       this.model.onReload.attach(
         (sender, data) => this.dataReloaded()
       )
-    }
+    }*/
 
     if (this.view.hasOwnProperty('onChanged')) {
       this.view.onChanged.attach(
@@ -33,7 +33,7 @@ var mvc = (function mvc(self, $) {
     }
   };
 
-  self.CardDealer.prototype = {
+  self.Dealer.prototype = {
     update(data) {
       this.model.set(data);
     },
@@ -43,4 +43,4 @@ var mvc = (function mvc(self, $) {
   };
 
   return self;
-})(mvc || {}, jQuery);
+})(writing || {});

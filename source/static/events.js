@@ -1,31 +1,33 @@
 /**
  * events.js
  * @author: Marko Čibej
- * @description: a trivial event handling framework
- * inspired by simpleMVC by Todd Zebert
- * https://medium.com/@ToddZebert/a-walk-through-of-a-simple-javascript-mvc-implementation-c188a69138dc.
-*/
+ * @description: a trivial event handling framework for the trackWriting application
+ */
 
-var mvc = (function mvc(self) {
+
+var writing = (function writing(self) {
   'use strict';
 
-  // sender is the context of the Model or View which originates the event
-  self.Event = function SimpleEvent(sender) {
+  // an event has a sender and listeners
+  self.Event = function(sender) {
     this.sender = sender;
     this.listeners = [];
   };
 
   self.Event.prototype = {
-    // add listener closures to the list
+
+    // attaching a listener is simply adding it to the list
     attach(listener) {
       this.listeners.push(listener);
     },
-    // loop through, calling attached listeners
-    notify(args) { this.listeners.forEach(
-      (v, i) => this.listeners[i](this.sender, args)
+
+    // loop through the attached listeners and call each one in turn
+    notify(args) {
+      this.listeners.forEach(
+        (listener) => listener(this.sender, args)
       )
     },
   };
 
   return self;
-})(mvc || {});
+})(writing || {});
