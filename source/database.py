@@ -44,23 +44,38 @@ class Database:
         """
         with open(json_file, 'r') as f:
             d = json.load(f)
-        cur = self.con.cursor()
-        cur.executescript(sql.clear_database)
+        self.con.executescript(sql.clear_database)
         for w in d['works']:
-            json_string = json.dumps({'name': w['name'],
-                                      'world': w['world'],
-                                      'series': w['series'],
-                                      'genre': w['genre'],
-                                      'type': w['type'],
-                                      'status': w['status'],
-                                      'word_count': w['word_count']})
-            cur.execute(sql.insert_work, {'name': w['name'],
-                                          'level': 'work',
-                                          'parent': None,
-                                          'json': json_string})
+            self.insert_work({'name': w['name'],
+                              'world': w['world'],
+                              'series': w['series'],
+                              'genre': w['genre'],
+                              'work_type': w['type'],
+                              'status': w['status'],
+                              'word_count': w['word_count'],
+                              'entry_type': 'work',
+                              'last_change': w['history'][-1]['tc'] if 'history' in w else '',
+                              'parent': None,
+                              'aggregate': False},
+                             commit=False)
         for name, definition in d['classifiers'].items():
-            cur.execute(sql.insert_classifier, {'name': name, 'json': json.dumps(definition)})
+            self.con.execute(sql.insert_classifier, {'name': name, 'json': json.dumps(definition)})
         self.con.commit()
+
+    def insert_work(self, work: dict, commit: bool = True):
+        """
+        Parse a dict that represents a work and insert it into the table.
+        :param work: the dict from the work
+        :param commit: whether or not to commit automatically
+        """
+        self.con.execute(sql.insert_work, {'name': work['name'],
+                                           'type': work['work_type'],
+                                           'parent': work['parent'],
+                                           'last_change': work['last_change'],
+                                           'aggregate': work['aggregate'],
+                                           'json': json.dumps(work)})
+        if commit:
+            self.con.commit()
 
     def upgrade_db(self):
         """
@@ -85,6 +100,12 @@ class Database:
         :param depth: the level at which to stop
         :return: a json string with the selected works
         """
-
         s = ','.join([_[0] for _ in self.con.execute(sql.get_works, {'level': depth}).fetchall()]).join(['[', ']'])
         return s
+
+    def get_classifiers(self) -> str:
+        """
+        Retrieve all the classifiers.
+        :return: a json string with the classifiers
+        """
+        return '[]'

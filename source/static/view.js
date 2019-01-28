@@ -26,11 +26,15 @@ var writing = (function writing(self, $) {
     this.onUpdate = new self.Event(this);
     this.onDelete = new self.Event(this);
 
-    // initialize the adapter and store it
+    // initialize the adapter and attach to it
     this.adapter = new self.Works();
+    this.adapter.attachView(this);
     // wire up the events we are interested in
     if (this.adapter.hasOwnProperty('onReload')) {
-      this.adapter.onReload.attach( (sender, data) => this.redisplay() ) }
+      this.adapter.onReload.attach( (sender, data) => this.redisplay() ) };
+
+    // finally, start the initial reload
+    this.adapter.reload();
   };
 
   self.CardsView.prototype = {

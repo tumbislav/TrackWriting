@@ -6,49 +6,52 @@
  *    The application is enclosed in the 'writing' namespace.
  */
 
-
-
 /**
  * The entire application is packaged in the 'writing' namespace.
  */
-var writing = (function writing(self) {
+var writing = (function writing(self, $) {
   'use strict';
 
   self.Works = function(view) {
-    // we start with an empty list of works
-    this.works = [];
-    // event to trigger on initial load or on reload
+    // the model's data cache
+    this.works = null;
+    this.classifiers = null;
+    // the configuration
+    this.preferred_language = 'default';
+
+    // Events we generate ourselves.
+    // initial load or reload
     this.onReload = new self.Event(this);
-
-    this.view = view;
-
-    // listen to the events we are interested in
-    if (this.view.hasOwnProperty('onAdd')) {
-      this.view.onAdd.attach( (sender, data) => this.addWork(data) ) }
-
-    if (this.view.hasOwnProperty('onDelete')) {
-      this.view.onReload.attach( (sender, data) => this.deleteWork(data) ) }
-
-    if (this.view.hasOwnProperty('onUpdate')) {
-      this.view.onReload.attach( (sender, data) => this.updateWork(data) ) }
   };
 
-  // define getters and setters
+  // the main functionality
   self.Works.prototype = {
 
-    // clear all current data, if any, and reload it from the server
-    reload() {
-      this.works = null;
-      let this_model = this;
-      let request = new XMLHttpRequest();
+    attachView(view) {
+      // adding a new work
+      if (view.hasOwnProperty('onAdd')) {
+        view.onAdd.attach( (sender, data) => this.addWork(data) ) }
+      // deleting a work
+      if (view.hasOwnProperty('onDelete')) {
+        view.onDelete.attach( (sender, data) => this.deleteWork(data) ) }
+      // changing an existing work
+      if (view.hasOwnProperty('onUpdate')) {
+        view.onUpdate.attach( (sender, data) => this.updateWork(data) ) }
+    },
 
-      request.onreadystatechange = function() {
-        if (this.readyState != 4 || this.status != 200) { return; }
-        this_model.works = JSON.parse(this.responseText);
-        this_model.onReload.notify();
-      };
-      request.open("GET", "/works", true);
-      request.send();
+    // clear current data and reload everything from server, then tell the views to refresh
+    reload() {
+      let _this = this;
+      $.when(
+        $.get('/works', function(response){
+          _this.works = JSON.parse(response);
+        }),
+        $.get('/classifiers', function(response){
+          _this.classifiers = JSON.parse(response);
+        })
+      ).then(function(){
+        _this.onReload.notify();
+      })
     },
 
     // get the simple version of the works list
@@ -71,14 +74,14 @@ var writing = (function writing(self) {
 
     // add a work and notify listeners
     addWork(work) {
-      this.data.push(work);
+      $.noop();
     },
     deleteWork(work) {
-      this.data.push(work);
+      $.noop();
     },
   };
 
   return self;
-})(writing || {});
+})(writing || {}, jQuery);
 
 

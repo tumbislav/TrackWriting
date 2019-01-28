@@ -1,10 +1,12 @@
 # encoding: utf-8
 # author: Marko Čibej
-# file: elper.py
+# file: helper.py
 """
 Mainly stuff that needs to be loaded laterally.
 """
 
 APP_VERSION = '0.1'
-FILE_PATH = 'c:/Users/marko/Work-synced/Writing/test.db'
-JSON_SOURCE = 'c:/Users/marko/Work-synced/Writing/raw-track.json'
+# FILES_ROOT = 'c:/Users/marko/Work-synced/Writing/'
+FILES_ROOT = 'c:/Users/mcibej/Work-synced/Writing/'
+FILE_PATH = FILES_ROOT + 'test.db'
+JSON_SOURCE = FILES_ROOT + 'raw-track.json'

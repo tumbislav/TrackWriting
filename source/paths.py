@@ -8,7 +8,7 @@ Temporary collection of Flask-related stuff. To be refactored.
 import json
 from flask import Flask, render_template, request
 from database import Database
-from helper import FILE_PATH
+from helper import FILE_PATH, JSON_SOURCE
 
 
 db = Database(FILE_PATH)
@@ -33,4 +33,9 @@ def update_diary():
 @app.route('/works', methods=['GET'])
 def get_works():
     return db.get_works(), 200, {'ContentType': 'application/json'}
+
+
+@app.route('/classifiers', methods=['GET'])
+def get_classifiers():
+    return db.get_classifiers(), 200, {'ContentType': 'application/json'}
 

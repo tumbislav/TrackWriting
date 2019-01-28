@@ -22,8 +22,9 @@ upgrade_db = {
             create table works (
               id integer primary key,
               name text not null,
-              work_level text not null,   -- collection, work, version or part
+              work_type text not null,    -- collection, work, version or part
               parent integer,             -- when the work has a parent
+              do_aggregate text,          -- whether this contributes to the parent's word count
               json text not null
             );
             
@@ -82,7 +83,8 @@ clear_database = '''
     '''
 
 insert_work = '''
-    insert into works (name, work_level, parent, json) values (:name, :level, :parent, :json);
+    insert into works (name, work_type, parent, do_aggregate, json) 
+        values (:name, :type, :parent, aggregate, :json);
     '''
 
 get_works = '''
