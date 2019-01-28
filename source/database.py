@@ -37,35 +37,22 @@ class Database:
         self.con.close()
         self.con = None
 
-    def load_from_json(self, json_file: str):
+    def clear_db(self):
         """
-        Loads the contents of a json storage file into the database.
-        :param json_file: the name of the json file
+        Remove all data from the database, with the exception of the meta table.
         """
-        with open(json_file, 'r') as f:
-            d = json.load(f)
         self.con.executescript(sql.clear_database)
-        for w in d['works']:
-            self.insert_work({'name': w['name'],
-                              'world': w['world'],
-                              'series': w['series'],
-                              'genre': w['genre'],
-                              'work_type': w['type'],
-                              'status': w['status'],
-                              'word_count': w['word_count'],
-                              'entry_type': 'work',
-                              'last_change': w['history'][-1]['tc'] if 'history' in w else '',
-                              'parent': None,
-                              'aggregate': False},
-                             commit=False)
-        for name, definition in d['classifiers'].items():
-            self.con.execute(sql.insert_classifier, {'name': name, 'json': json.dumps(definition)})
+
+    def force_commit(self):
+        """
+        Make sure that everything is committed. Useful if we've been deferring commits for a while.
+        """
         self.con.commit()
 
     def insert_work(self, work: dict, commit: bool = True):
         """
         Parse a dict that represents a work and insert it into the table.
-        :param work: the dict from the work
+        :param work: the dict that represents the work
         :param commit: whether or not to commit automatically
         """
         self.con.execute(sql.insert_work, {'name': work['name'],
@@ -76,6 +63,15 @@ class Database:
                                            'json': json.dumps(work)})
         if commit:
             self.con.commit()
+
+    def insert_classifier(self, classifier: dict, commit: bool = True):
+        """
+        Parse a dict that represents a classifier and insert it into the table.
+        :param classifier: the classifier dict
+        :param commit: whether or not to commit automatically
+        """
+        self.con.execute(sql.insert_classifier, {'name': name, 'json': json.dumps(definition)})
+        pass
 
     def upgrade_db(self):
         """
@@ -109,3 +105,33 @@ class Database:
         :return: a json string with the classifiers
         """
         return '[]'
+
+
+def load_from_json(db: Database, json_file: str):
+    """
+    Loads the contents of a json storage file into the database.
+    :param json_file: the name of the json file
+    :param db: the Database object, connected to an open database
+    """
+    with open(json_file, 'r') as f:
+        d = json.load(f)
+    for w in d['works']:
+        db.insert_work({'name': w['name'],
+                        'world': w['world'],
+                        'series': w['series'],
+                        'genre': w['genre'],
+                        'work_type': w['type'],
+                        'status': w['status'],
+                        'word_count': w['word_count'],
+                        'entry_type': 'work',
+                        'last_change': w['history'][-1]['tc'] if 'history' in w else '',
+                        'parent': None,
+                        'aggregate': False},
+                       commit=False)
+    for c in d['classifiers'].items():
+        db.insert_classifier({'name': c['name'],
+                              'active': c['active'],
+                              'values': c['values']},
+                             commit=False)
+    db.force_commit()
+

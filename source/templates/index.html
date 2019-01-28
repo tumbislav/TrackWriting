@@ -33,7 +33,7 @@
       </div>
     </nav>
 
-    <div class="card-deck" id="full-deck" style="margin-top:80px">
+    <div class="card-deck" id="main-deck" style="margin-top:80px">
 
       <!-- templates for card deck elements -->
 
@@ -103,9 +103,9 @@
   <script src="{{ url_for('static', filename='events.js') }}"></script>
   <script src="{{ url_for('static', filename='adapter.js') }}"></script>
   <script src="{{ url_for('static', filename='view.js') }}"></script>
-<!-- Kick everything of by instantiating the card view.  -->
+<!-- Kick everything off by instantiating the card view.  -->
   <script type="text/javascript">
-    $(document).ready(function() {var cardView = new writing.CardsView($('#full-deck'))});
+    $(document).ready(function() {var cardView = new writing.CardsView($('#main-deck'))});
   </script>
 </body>
 </html>

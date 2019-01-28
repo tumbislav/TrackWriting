@@ -45,8 +45,10 @@ upgrade_db = {
             
             create table i18n (
               id integer primary key,
-              language text,
-              json text not null
+              language text not null,
+              context text not null,
+              key text not null,
+              value text not null
             );
             '''
         },
@@ -91,7 +93,9 @@ get_works = '''
     select json from works;
     '''
 
-# where work_level <=: level
+get_classifiers = '''
+    select json from classifiers;
+    '''
 
 insert_classifier = '''
     insert into classifiers (classifier_name, json) values (:name, :json);
