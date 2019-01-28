@@ -22,9 +22,9 @@ upgrade_db = {
             create table works (
               id integer primary key,
               name text not null,
-              work_type text not null,    -- collection, work, version or part
-              parent integer,             -- when the work has a parent
-              do_aggregate text,          -- whether this contributes to the parent's word count
+              parent integer,
+              aggregate text,
+              last_change text,
               json text not null
             );
             
@@ -51,11 +51,7 @@ upgrade_db = {
               value text not null
             );
             '''
-        },
-    '0.1': {
-        'target-version': '0.2',
-        'ddl': ''';'''
-    }
+        }
 }
 
 is_initialized = '''
@@ -85,8 +81,25 @@ clear_database = '''
     '''
 
 insert_work = '''
-    insert into works (name, work_type, parent, do_aggregate, json) 
-        values (:name, :type, :parent, aggregate, :json);
+    insert into works (name, parent, aggregate, last_change, json) 
+        values (:name, :parent, :aggregate, :last_change, :json);
+    '''
+
+insert_translation = '''
+    insert into i18n (language, context, key, value) 
+        values (:language, :context, :key, :value);
+    '''
+
+update_translation = '''
+    update i18n set value=:value where language=:language and context=:context and key=:key;
+    '''
+
+delete_translation = '''
+    delete from i18n where language=:language and context=:context and key=:key;
+    '''
+
+get_translation = '''
+    select value from i18n where language=:language and context=:context and key=:key;
     '''
 
 get_works = '''

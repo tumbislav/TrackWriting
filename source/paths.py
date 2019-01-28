@@ -7,11 +7,13 @@ Temporary collection of Flask-related stuff. To be refactored.
 
 import json
 from flask import Flask, render_template, request
-from database import Database
+from database import Database, load_from_json
 from helper import FILE_PATH, JSON_SOURCE
 
 
 db = Database(FILE_PATH)
+
+load_from_json(db, JSON_SOURCE)
 
 app = Flask(__name__)
 
