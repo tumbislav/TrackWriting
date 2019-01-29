@@ -21,16 +21,16 @@ upgrade_db = {
             
             create table works (
               id integer primary key,
-              outer_id text not null,
+              work_code text not null,
               name text not null,
               parent integer,
               aggregate text,
               last_change text,
               json text not null,
-              unique (outer_id)
+              unique (work_id)
             );
             
-            create index works_by_outer_id on works (outer_id);
+            create index works_by_work_code on works (work_code);
             
             create table history (
               history_work integer not null,
@@ -85,8 +85,8 @@ clear_database = '''
 
 # works
 insert_work = '''
-    insert into works (name, outer_id, parent, aggregate, last_change, json) 
-        values (:name, :outer_id, :parent, :aggregate, :last_change, :json);
+    insert into works (name, work_id, parent, aggregate, last_change, json) 
+        values (:name, :work_id, :parent, :aggregate, :last_change, :json);
     '''
 get_works = '''
     select json from works;

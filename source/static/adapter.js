@@ -19,6 +19,7 @@ var writing = (function writing(self, $) {
     this.translations = null;
     // the configuration
     this.preferred_language = 'en';
+    this.current_translation = null;
 
     // Events we generate ourselves.
     // initial load or reload
@@ -31,13 +32,13 @@ var writing = (function writing(self, $) {
     attachView(view) {
       // adding a new work
       if (view.hasOwnProperty('onAdd')) {
-        view.onAdd.attach( (sender, data) => this.addWork(data) ) }
+        view.onAdd.attach( (sender, data) => this.addWork(data) ); }
       // deleting a work
       if (view.hasOwnProperty('onDelete')) {
-        view.onDelete.attach( (sender, data) => this.deleteWork(data) ) }
+        view.onDelete.attach( (sender, data) => this.deleteWork(data) ); }
       // changing an existing work
       if (view.hasOwnProperty('onUpdate')) {
-        view.onUpdate.attach( (sender, data) => this.updateWork(data) ) }
+        view.onUpdate.attach( (sender, data) => this.updateWork(data) ); }
     },
 
     // clear current data and reload everything from server, then tell the views to refresh
@@ -52,33 +53,38 @@ var writing = (function writing(self, $) {
         }),
         $.get('/translations', function(response){
           _this.translations = JSON.parse(response);
+          if (_this.preferred_language != null && _this.translations.hasOwnProperty(_this.preferred_language)) {
+            _this.current_translation = _this.translations[_this.preferred_language];
+          }
         })
       ).then(function(){
         _this.onReload.notify();
-      })
+      });
     },
 
-    translateString(translation, context, value) {
-      if (translation.hasOwnProperty(context) && translation[context].hasOwnProperty(value)) {
-        return translation[context][value];
-      }
-      else {
-        return value;
-      }
+    translationContext(context) {
+      return (this.current_translation.hasOwnProperty(context) ? this.current_translation[context] : {});
+    }
+
+    translateString(context, value) {
+      let ctx = this.translationContext(context);
+      return (ctx.hasOwnProperty(value) ? ctx[value] : value);
+    },
+
+    translateList(context, values) {
+      let ctx = this.translationContext(context);
+      return values.map((value) => (ctx.hasOwnProperty(value) ? ctx[value] : value))
     },
 
     translateWork(work) {
-      let translations = {};
       let adapted = {};
-      if (this.preferred_language != null && this.translations.hasOwnProperty(this.preferred_language)) {
-        translations = this.translations[this.preferred_language];
-      }
       adapted.id = work.id;
+      adapted.type = work.type;
       adapted.name = work.name;
       adapted.world = work.world;
       adapted.series = work.series;
-      adapted.genre = this.translateString(translations, 'genres', work.genre);
-      adapted.type = work.type;
+      adapted.genre = this.translateString('genres', work.genre);
+      adapted.form = work.form;
       adapted.status = work.status;
       adapted.word_count = work.word_count;
       return adapted;
@@ -89,7 +95,7 @@ var writing = (function writing(self, $) {
       let work_list = [];
       for (let [n, work] of this.works.entries()) {
         work_list.push(this.translateWork(work));
-      };
+      }
       return work_list;
     },
 

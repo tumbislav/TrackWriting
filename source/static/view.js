@@ -41,6 +41,7 @@ var writing = (function writing(self, $) {
     redisplay() {
       let works = this.adapter.getWorks();
       this.deck.empty()
+      this.card_template.find('#world-prompt').html('svet');
 
       for (let [row, work] of works.entries()) {
         let newCard = this.card_template.clone();
@@ -49,7 +50,7 @@ var writing = (function writing(self, $) {
         newCard.find('#world').html(work.world);
         newCard.find('#series').html(work.series);
         newCard.find('#genre').html(work.genre);
-        newCard.find('#type').html(work.type);
+        newCard.find('#form').html(work.form);
         newCard.find('#status').html(work.status);
         newCard.find('#count').html(work.word_count);
         this.deck.append(newCard);

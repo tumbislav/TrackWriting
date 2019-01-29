@@ -89,7 +89,7 @@ class Database:
         """
         cursor = self.con.execute(sql.insert_work,
                                   {'name': work['name'],
-                                   'outer_id': work['outer_id'],
+                                   'work_id': work['work_id'],
                                    'parent': work['parent'],
                                    'aggregate': work['aggregate'],
                                    'last_change': work['last_change'],
@@ -214,21 +214,21 @@ def load_from_json(db: Database, json_file: str):
         source = json.load(f)
     for work in source['works']:
         history = [] if 'history' not in work else work['history']
-        work_id = db.insert_work({'outer_id': work['id'],
-                                  'name': work['name'],
-                                  'world': work['world'],
-                                  'series': work['series'],
-                                  'genre': work['genre'],
-                                  'form': work['form'],
-                                  'status': work['status'],
-                                  'word_count': work['word_count'],
-                                  'type': 'work',
-                                  'last_change': history[-1]['tstamp'] if len(history) > 0 else '',
-                                  'parent': None,
-                                  'aggregate': False},
-                                 commit=False)
+        inner_id = db.insert_work({'work_id': work['id'],
+                                   'name': work['name'],
+                                   'world': work['world'],
+                                   'series': work['series'],
+                                   'genre': work['genre'],
+                                   'form': work['form'],
+                                   'status': work['status'],
+                                   'word_count': work['word_count'],
+                                   'type': 'work',
+                                   'last_change': history[-1]['tstamp'] if len(history) > 0 else '',
+                                   'parent': None,
+                                   'aggregate': False},
+                                  commit=False)
         for entry in history:
-            db.set_history(work_id, entry['tstamp'], 'word_count', entry['count'], commit=False)
+            db.set_history(inner_id, entry['tstamp'], 'word_count', entry['count'], commit=False)
 
     for name, classifier in source['classifiers'].items():
         classifier['name'] = name
