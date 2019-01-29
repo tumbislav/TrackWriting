@@ -16,8 +16,9 @@ var writing = (function writing(self, $) {
     // the model's data cache
     this.works = null;
     this.classifiers = null;
+    this.translations = null;
     // the configuration
-    this.preferred_language = 'default';
+    this.preferred_language = 'en';
 
     // Events we generate ourselves.
     // initial load or reload
@@ -48,26 +49,46 @@ var writing = (function writing(self, $) {
         }),
         $.get('/classifiers', function(response){
           _this.classifiers = JSON.parse(response);
+        }),
+        $.get('/translations', function(response){
+          _this.translations = JSON.parse(response);
         })
       ).then(function(){
         _this.onReload.notify();
       })
     },
 
+    translateString(translation, context, value) {
+      if (translation.hasOwnProperty(context) && translation[context].hasOwnProperty(value)) {
+        return translation[context][value];
+      }
+      else {
+        return value;
+      }
+    },
+
+    translateWork(work) {
+      let translations = {};
+      let adapted = {};
+      if (this.preferred_language != null && this.translations.hasOwnProperty(this.preferred_language)) {
+        translations = this.translations[this.preferred_language];
+      }
+      adapted.id = work.id;
+      adapted.name = work.name;
+      adapted.world = work.world;
+      adapted.series = work.series;
+      adapted.genre = this.translateString(translations, 'genres', work.genre);
+      adapted.type = work.type;
+      adapted.status = work.status;
+      adapted.word_count = work.word_count;
+      return adapted;
+    },
+
     // get the simple version of the works list
     getWorks() {
       let work_list = [];
-      for (let [n, w] of this.works.entries()) {
-        work_list.push({
-          id: w.id,
-          name: w.name,
-          world: w.world,
-          series: w.series,
-          genre: w.genre,
-          type: w.type,
-          status: w.status,
-          word_count: w.word_count
-        });
+      for (let [n, work] of this.works.entries()) {
+        work_list.push(this.translateWork(work));
       };
       return work_list;
     },

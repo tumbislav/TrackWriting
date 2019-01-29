@@ -41,3 +41,7 @@ def get_works():
 def get_classifiers():
     return db.get_classifiers(), 200, {'ContentType': 'application/json'}
 
+
+@app.route('/translations', methods=['GET'])
+def get_translations():
+    return db.get_translations_for_language(), 200, {'ContentType': 'application/json'}
