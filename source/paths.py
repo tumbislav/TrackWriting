@@ -13,7 +13,7 @@ from helper import FILE_PATH, JSON_SOURCE
 
 db = Database(FILE_PATH)
 
-load_from_json(db, JSON_SOURCE)
+# load_from_json(db, JSON_SOURCE)
 
 app = Flask(__name__)
 
