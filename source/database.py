@@ -88,11 +88,9 @@ class Database:
         :return: the row ID of the inserted row
         """
         cursor = self.con.execute(sql.insert_work,
-                                  {'name': work['name'],
-                                   'work_id': work['work_id'],
+                                  {'code': work['code'],
+                                   'name': work['name'],
                                    'parent': work['parent'],
-                                   'aggregate': work['aggregate'],
-                                   'last_change': work['last_change'],
                                    'json': json.dumps(work)})
         if commit:
             self.con.commit()
@@ -177,17 +175,18 @@ class Database:
             current_context[row[2]] = row[3]
         return json.dumps(all_langs)
 
-    def set_history(self, work: int, timestamp: str, attribute: str, value: str, commit: bool = True) -> Optional[int]:
+    def set_history(self, work_code: str, timestamp: str,
+                    attribute: str, value: str, commit: bool = True) -> Optional[int]:
         """
         Identical logic as set_translation.
-        :param work: the work to which the history applies
+        :param work_code: the work to which the history applies
         :param timestamp: when the value changed
         :param attribute: the attribute that changed
         :param value: the attribute's value
         :param commit: whether to commit
         :return: the relevant rowid
         """
-        selector = {'work': work, 'tstamp': timestamp, 'attribute': attribute}
+        selector = {'work_code': work_code, 'timestamp': timestamp, 'attribute': attribute}
         exists = self.con.execute(sql.get_history, selector).fetchone() is not None
         if value is None:
             if exists:
@@ -214,21 +213,21 @@ def load_from_json(db: Database, json_file: str):
         source = json.load(f)
     for work in source['works']:
         history = [] if 'history' not in work else work['history']
-        inner_id = db.insert_work({'work_id': work['id'],
-                                   'name': work['name'],
-                                   'world': work['world'],
-                                   'series': work['series'],
-                                   'genre': work['genre'],
-                                   'form': work['form'],
-                                   'status': work['status'],
-                                   'word_count': work['word_count'],
-                                   'type': 'work',
-                                   'last_change': history[-1]['tstamp'] if len(history) > 0 else '',
-                                   'parent': None,
-                                   'aggregate': False},
-                                  commit=False)
+        db.insert_work({'code': work['id'],
+                        'name': work['name'],
+                        'world': work['world'],
+                        'series': work['series'],
+                        'genre': work['genre'],
+                        'form': work['form'],
+                        'status': work['status'],
+                        'word_count': work['word_count'],
+                        'type': 'work',
+                        'last_change': history[-1]['timestamp'] if len(history) > 0 else '',
+                        'parent': None,
+                        'aggregate': False},
+                       commit=False)
         for entry in history:
-            db.set_history(inner_id, entry['tstamp'], 'word_count', entry['count'], commit=False)
+            db.set_history(work['id'], entry['timestamp'], 'word_count', entry['count'], commit=False)
 
     for name, classifier in source['classifiers'].items():
         classifier['name'] = name

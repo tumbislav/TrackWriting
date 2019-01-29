@@ -38,10 +38,23 @@ var writing = (function writing(self, $) {
   };
 
   self.CardsView.prototype = {
+    getWidthOfText(txt, fontname, fontsize){
+      if(getWidthOfText.c === undefined){
+          getWidthOfText.c=document.createElement('canvas');
+          getWidthOfText.ctx=getWidthOfText.c.getContext('2d');
+      }
+      getWidthOfText.ctx.font = fontsize + ' ' + fontname;
+      return getWidthOfText.ctx.measureText(txt).width;
+    },
     redisplay() {
       let works = this.adapter.getWorks();
       this.deck.empty()
-      this.card_template.find('#world-prompt').html('svet');
+      let prompt_ids = ['world-prompt', 'series-prompt', 'genre-prompt', 'form-prompt', 'status-prompt', 'count-prompt'];
+      let prompt_values = this.adapter.translateList('ui', prompt_ids);
+
+      for (let i = 0; i < prompt_ids.length; ++i) {
+        this.card_template.find('#' + prompt_ids[i]).html(prompt_values[i]);
+      }
 
       for (let [row, work] of works.entries()) {
         let newCard = this.card_template.clone();

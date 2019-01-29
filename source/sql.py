@@ -20,28 +20,25 @@ upgrade_db = {
             );
             
             create table works (
-              id integer primary key,
-              work_code text not null,
+              id integer primary key,  -- ROWID
+              code text not null,      -- the id that the UI uses
               name text not null,
               parent integer,
-              aggregate text,
-              last_change text,
-              json text not null,
-              unique (work_id)
+              json text not null
             );
             
-            create index works_by_work_code on works (work_code);
+            create unique index works_by_code on works (code);
             
             create table history (
-              history_work integer not null,
-              tstamp text not null,
+              work_code integer not null,
+              timestamp text not null,
               attribute text not null,
               value text not null,
-              primary key (history_work, tstamp, attribute),
-              foreign key(history_work) references works(id)
+              primary key (work_code, timestamp, attribute),
+              foreign key (work_code) references works(code)
             );
             
-            create index history_by_work on history (history_work);
+            create index history_by_work on history (work_code);
             
             create table classifiers (
               id integer primary key,
@@ -85,8 +82,8 @@ clear_database = '''
 
 # works
 insert_work = '''
-    insert into works (name, work_id, parent, aggregate, last_change, json) 
-        values (:name, :work_id, :parent, :aggregate, :last_change, :json);
+    insert into works (code, name, parent, json) 
+        values (:code, :name, :parent, :json);
     '''
 get_works = '''
     select json from works;
@@ -119,17 +116,17 @@ get_translations = '''
 
 # history
 insert_history = '''
-    insert into history (history_work, tstamp, attribute, value) values (:work, :tstamp, :attribute, :value);
+    insert into history (work_code, timestamp, attribute, value) values (:work_code, :timestamp, :attribute, :value);
     '''
 update_history = '''
-    update history set value=:value where history_work=:work and tstamp=:tstamp and attribute=:attribute;
+    update history set value=:value where work_code=:work_code and timestamp=:timestamp and attribute=:attribute;
     '''
 delete_history = '''
-    delete from history where history_work=:work and tstamp=:tstamp and attribute=:attribute;
+    delete from history where work_code=:work_code and timestamp=:timestamp and attribute=:attribute;
     '''
 get_history = '''
-    select value from history where history_work=:work and tstamp=:tstamp and attribute=:attribute;
+    select value from history where work_code=:work_code and timestamp=:timestamp and attribute=:attribute;
     '''
 get_history_by_work = '''
-    select tstamp, attribute, value from history where history_work=:work;
+    select timestamp, attribute, value from history where work_code=:work_code;
 '''

@@ -64,7 +64,7 @@ var writing = (function writing(self, $) {
 
     translationContext(context) {
       return (this.current_translation.hasOwnProperty(context) ? this.current_translation[context] : {});
-    }
+    },
 
     translateString(context, value) {
       let ctx = this.translationContext(context);
