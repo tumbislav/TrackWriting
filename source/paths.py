@@ -7,13 +7,11 @@ Temporary collection of Flask-related stuff. To be refactored.
 
 import json
 from flask import Flask, render_template, request
-from database import Database, load_from_json
-from helper import FILE_PATH, JSON_SOURCE
+from database import Database
+from helper import FILE_PATH, APP_VERSION, JSON_SOURCE, load_from_json
 
 
-db = Database(FILE_PATH)
-
-# load_from_json(db, JSON_SOURCE)
+db = Database(FILE_PATH, APP_VERSION)
 
 app = Flask(__name__)
 
@@ -30,6 +28,15 @@ def update_diary():
                 {'ContentType': 'application/json'}
     elif request.method == 'POST':
         return json.dumps(works), 200, {'ContentType': 'application/json'}
+
+
+@app.route('/import', methods=['GET'])
+def import_from_json():
+    """
+    Reload the model from a new or old file.
+    """
+    load_from_json(db, JSON_SOURCE)
+    return ''
 
 
 @app.route('/works', methods=['GET'])

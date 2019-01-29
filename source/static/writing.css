@@ -1,7 +1,6 @@
 .limited-title {
-  text-overflow: ellipsis;
-  white-space: nowrap;
   overflow: hidden;
+  height: 70px;
 }
 
 @media (min-width: 576px) {

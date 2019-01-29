@@ -9,7 +9,6 @@ import json
 import os
 import sqlite3
 import sql
-from helper import APP_VERSION
 from typing import Iterable, Optional
 
 
@@ -29,13 +28,16 @@ class Database:
     No context handler implemented, because it's meant to remain active in its thread while the app is running.
     """
     con: sqlite3.Connection
+    app_version: str
 
-    def __init__(self, file_name: str, auto_upgrade: bool = True):
+    def __init__(self, file_name: str, app_version: str, auto_upgrade: bool = True):
         """
         Open or create a database.
         :param file_name: the file to use
+        :param app_version: the version of the app
         :param auto_upgrade: whether to upgrade the database automatically; overriden when the database is new
         """
+        self.app_version = app_version
         new_db = not os.path.isfile(file_name)
         self.con = sqlite3.connect(file_name, check_same_thread=False)
         if auto_upgrade or new_db:
@@ -76,7 +78,7 @@ class Database:
             target_version = sql.upgrade_db[current_version]['target-version']
             cur.executescript(sql.upgrade_db[current_version]['ddl'])
             cur.execute(sql.invalidate_db_version)
-            cur.execute(sql.update_db_version, {'db_version': target_version, 'app_version': APP_VERSION})
+            cur.execute(sql.update_db_version, {'db_version': target_version, 'app_version': self.app_version})
             self.con.commit()
             current_version = target_version
 
@@ -201,42 +203,3 @@ class Database:
         if commit:
             self.con.commit()
         return cursor.lastrowid
-
-
-def load_from_json(db: Database, json_file: str):
-    """
-    Loads the contents of a json storage file into the database.
-    :param json_file: the name of the json file
-    :param db: the Database object, connected to an open database
-    """
-    with open(json_file, 'r') as f:
-        source = json.load(f)
-    for work in source['works']:
-        history = [] if 'history' not in work else work['history']
-        db.insert_work({'code': work['id'],
-                        'name': work['name'],
-                        'world': work['world'],
-                        'series': work['series'],
-                        'genre': work['genre'],
-                        'form': work['form'],
-                        'status': work['status'],
-                        'word_count': work['word_count'],
-                        'type': 'work',
-                        'last_change': history[-1]['timestamp'] if len(history) > 0 else '',
-                        'parent': None,
-                        'aggregate': False},
-                       commit=False)
-        for entry in history:
-            db.set_history(work['id'], entry['timestamp'], 'word_count', entry['count'], commit=False)
-
-    for name, classifier in source['classifiers'].items():
-        classifier['name'] = name
-        db.insert_classifier(classifier, commit=False)
-
-    for language, contexts in source['i18n'].items():
-        for context, string_set in contexts.items():
-            for key, value in string_set.items():
-                db.set_translation(language, context, key, value, commit=False)
-
-    db.force_commit()
-

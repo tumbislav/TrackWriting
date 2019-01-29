@@ -13,6 +13,8 @@ var writing = (function writing(self, $) {
 
   // card deck
   self.CardsView = function(deck) {
+    let _this = this;
+
     // locate and save the templates for DOM elements we use
     this.deck = deck;
     this.card_template = $(this.deck.find('#card-template').html());
@@ -20,6 +22,10 @@ var writing = (function writing(self, $) {
     this.sep3_template = $(this.deck.find('#card-sep-3').html());
     this.sep4_template = $(this.deck.find('#card-sep-4').html());
     this.sep5_template = $(this.deck.find('#card-sep-5').html());
+
+    $('#reload-file').click(function() {
+      _this.adapter.import();
+    });
 
     // publicise the events we trigger
     this.onAdd = new self.Event(this);
@@ -38,7 +44,7 @@ var writing = (function writing(self, $) {
   };
 
   self.CardsView.prototype = {
-    getWidthOfText(txt, fontname, fontsize){
+/*    getWidthOfText(txt, fontname, fontsize){
       if(getWidthOfText.c === undefined){
           getWidthOfText.c=document.createElement('canvas');
           getWidthOfText.ctx=getWidthOfText.c.getContext('2d');
@@ -46,19 +52,31 @@ var writing = (function writing(self, $) {
       getWidthOfText.ctx.font = fontsize + ' ' + fontname;
       return getWidthOfText.ctx.measureText(txt).width;
     },
+*/
     redisplay() {
       let works = this.adapter.getWorks();
-      this.deck.empty()
-      let prompt_ids = ['world-prompt', 'series-prompt', 'genre-prompt', 'form-prompt', 'status-prompt', 'count-prompt'];
+      let prompt_ids = ['world-prompt',
+                        'series-prompt',
+                        'genre-prompt',
+                        'form-prompt',
+                        'status-prompt',
+                        'count-prompt'];
+
       let prompt_values = this.adapter.translateList('ui', prompt_ids);
 
       for (let i = 0; i < prompt_ids.length; ++i) {
         this.card_template.find('#' + prompt_ids[i]).html(prompt_values[i]);
       }
 
+      this.deck.empty();
+
       for (let [row, work] of works.entries()) {
         let newCard = this.card_template.clone();
         newCard.find('#work-title').html(work.name);
+        if (work.name.length > 35) {
+          newCard.find('#work-title').addClass('small');
+        }
+
         newCard.find('#count-top').html(work.word_count);
         newCard.find('#world').html(work.world);
         newCard.find('#series').html(work.series);

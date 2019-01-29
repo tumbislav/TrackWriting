@@ -29,6 +29,13 @@ var writing = (function writing(self, $) {
   // the main functionality
   self.Works.prototype = {
 
+    import() {
+      let _this = this;
+      $.get('/import', function(data, status) {
+        _this.reload();
+      });
+    },
+
     attachView(view) {
       // adding a new work
       if (view.hasOwnProperty('onAdd')) {
