@@ -7,11 +7,11 @@ Mainly stuff that needs to be loaded laterally.
 
 from database import Database
 import json
+import os
 
 
 APP_VERSION = '0.1'
-# FILES_ROOT = 'c:/Users/marko/Work-synced/Writing/'
-FILES_ROOT = 'c:/Users/mcibej/Work-synced/Writing/'
+FILES_ROOT = os.getenv('WRITING_ROOT')
 FILE_PATH = FILES_ROOT + 'test.db'
 JSON_SOURCE = FILES_ROOT + 'raw-track.json'
 

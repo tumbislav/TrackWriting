@@ -1,11 +1,11 @@
+.reduced {
+  font-size: 70%;
+  font-weight: 400;
+}
+
 .work-name {
   height: 60px;
   overflow: hidden;
-}
-
-.reduced (
-  font-size: 70%;
-  font-weight: 400;
 }
 
 @media (min-width: 576px) {

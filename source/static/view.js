@@ -23,6 +23,7 @@ var writing = (function writing(self, $) {
     this.sep4_template = $(this.deck.find('#card-sep-4').html());
     this.sep5_template = $(this.deck.find('#card-sep-5').html());
 
+    // user events that we handle
     $('#reload-file').click(function() {
       _this.adapter.import();
     });
@@ -65,10 +66,10 @@ var writing = (function writing(self, $) {
         let newCard = this.card_template.clone();
         newCard.find('#work-title').html(work.name);
         if (work.name.length > 50) {
-          newCard.find('#work-title').css("font-size","70%");
+          newCard.find('#work-title').addClass('reduced'); //.css("font-size","70%");
         }
         else if (work.name.length > 35) {
-          newCard.find('#work-title').addClass('small');
+          newCard.find('#work-title').addClass('small'); //.css("font-size","80%");
         }
 
         newCard.find('#count-top').html(work.word_count);
