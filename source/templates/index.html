@@ -23,7 +23,7 @@
       <div class="collapse navbar-collapse" id="topNavbar">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" id="reload-file" href="#">Reload <i class="fas fa-sync small"></i></a>
+            <a class="nav-link tw-mnu-reimport" href="#"></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link <span class="fas fa-dice-d20"></span></a>
@@ -47,8 +47,6 @@
     </nav>
 
     <div class="card-deck" id="main-deck" style="margin-top:80px">
-      <!-- <div class="spinner-grow text-success mx-auto" id="spinner-loading"></div> -->
-      <!-- templates for card deck elements -->
 
       <!-- the work card -->
       <template id="card-template">
@@ -69,28 +67,28 @@
             <table class="table table-sm table-borderless mb-3">
               <tbody>
                 <tr>
-                  <td class="col-4 p-0"><small class="text-muted" id="world-prompt"></small></td>
-                  <td class="col-8 p-0"><span class="card-text" id="world"></span></td>
+                  <td class="col-4 p-0"><small class="text-muted tw-tag-world"></small></td>
+                  <td class="col-8 p-0"><span class="card-text tw-world" contenteditable></span></td>
                 </tr>
                 <tr>
-                  <td class="col-4 p-0"><small class="text-muted" id="series-prompt"></small></td>
-                  <td class="col-8 p-0"><span class="card-text" id="series"></span></td>
+                  <td class="col-4 p-0"><small class="text-muted tw-tag-series"></small></td>
+                  <td class="col-8 p-0"><span class="card-text tw-series" contenteditable></span></td>
                 </tr>
                 <tr>
-                  <td class="col-4 p-0"><small class="text-muted" id="genre-prompt"></small></td>
-                  <td class="col-8 p-0"><span class="card-text" id="genre"></span></td>
+                  <td class="col-4 p-0"><small class="text-muted tw-tag-genre"></small></td>
+                  <td class="col-8 p-0"><span class="card-text tw-genre" contenteditable></span></td>
                 </tr>
                 <tr>
-                  <td class="col-4 p-0"><small class="text-muted" id="form-prompt"></small></td>
-                  <td class="col-8 p-0"><span class="card-text" id="form"></span></td>
+                  <td class="col-4 p-0"><small class="text-muted tw-tag-form"></small></td>
+                  <td class="col-8 p-0"><span class="card-text tw-form" contenteditable></span></td>
                 </tr>
                 <tr>
-                  <td class="col-4 p-0"><small class="text-muted" id="status-prompt"></small></td>
-                  <td class="col-8 p-0"><span class="card-text" id="status"></span></td>
+                  <td class="col-4 p-0"><small class="text-muted tw-tag-status"></small></td>
+                  <td class="col-8 p-0"><span class="card-text tw-status" contenteditable></span></td>
                 </tr>
                 <tr>
-                  <td class="col-4 p-0"><small class="text-muted" id="count-prompt"></small></td>
-                  <td class="col-8 p-0"><span class="card-text tw-count" contenteditable></span></td>
+                  <td class="col-4 p-0"><small class="text-muted tw-tag-count"></small></td>
+                  <td class="col-8 p-0"><span class="card-text tw-word-count" contenteditable></span></td>
                 </tr>
               </tbody>
             </table>
