@@ -9,10 +9,10 @@
  * The cards view
  */
 var writing = (function writing(self, $) {
-  'use strict';
+    'use strict';
 
-  // card deck
-  self.CardsView = function(deck) {
+    // card deck
+    self.CardsView = function(deck) {
     let _this = this;
 
     // locate and save the templates for DOM elements we use
@@ -25,8 +25,18 @@ var writing = (function writing(self, $) {
 
     // user events that we handle
     $('#reload-file').click(function() {
-      _this.adapter.import();
+        _this.adapter.import();
     });
+
+    deck.on('keydown', '.tw-count', function(e) {
+        let keycode = e.charCode || e.keyCode;
+        if (keycode  == 13) {
+            let card = $(e.target).closest('.card');
+            $(e.target).html(card.data('json').word_count);
+            return false;
+        }
+    });
+
 
     // publicise the events we trigger
     this.onAdd = new self.Event(this);
@@ -78,8 +88,10 @@ var writing = (function writing(self, $) {
         newCard.find('#genre').html(work.genre);
         newCard.find('#form').html(work.form);
         newCard.find('#status').html(work.status);
-        newCard.find('#count').html(work.word_count);
+        newCard.find('.tw-count').html(work.word_count);
+        newCard.data('json', work);
         this.deck.append(newCard);
+
 
         if (row % 2 == 1) { this.deck.append(this.sep2_template.clone()); }
         if (row % 3 == 2) { this.deck.append(this.sep3_template.clone()); }
