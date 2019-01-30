@@ -80,7 +80,7 @@ var writing = (function writing(self, $) {
 
     translateWork(work) {
       let adapted = {};
-      adapted.id = work.id;
+      adapted.code = work.code;
       adapted.type = work.type;
       adapted.name = work.name;
       adapted.world = work.world;
@@ -107,6 +107,14 @@ var writing = (function writing(self, $) {
     },
     deleteWork(work) {
       $.noop();
+    },
+    updateWork(work) {
+        $.ajax({
+                url: '/works',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(work)
+            });
     },
   };
 

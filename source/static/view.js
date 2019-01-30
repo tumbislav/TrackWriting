@@ -32,7 +32,9 @@ var writing = (function writing(self, $) {
         let keycode = e.charCode || e.keyCode;
         if (keycode  == 13) {
             let card = $(e.target).closest('.card');
-            $(e.target).html(card.data('json').word_count);
+            let new_data = card.data('json');
+            new_data.word_count = Number($(e.target).html());
+            _this.onUpdate.notify(new_data);
             return false;
         }
     });

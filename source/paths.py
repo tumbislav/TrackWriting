@@ -39,9 +39,13 @@ def import_from_json():
     return ''
 
 
-@app.route('/works', methods=['GET'])
-def get_works():
-    return db.get_works(), 200, {'ContentType': 'application/json'}
+@app.route('/works', methods=['GET', 'PUT'])
+def works():
+    if request.method == 'GET':
+        return db.get_works(), 200, {'ContentType': 'application/json'}
+    elif request.method == 'PUT':
+        db.update_work(request.json)
+        return ''
 
 
 @app.route('/classifiers', methods=['GET'])

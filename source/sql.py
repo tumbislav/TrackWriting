@@ -85,6 +85,9 @@ insert_work = '''
     insert into works (code, name, parent, json) 
         values (:code, :name, :parent, :json);
     '''
+update_work = '''
+    update works set json=:json where code=:code;
+    '''
 get_works = '''
     select json from works;
     '''

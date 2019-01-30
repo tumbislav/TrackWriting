@@ -98,6 +98,10 @@ class Database:
             self.con.commit()
         return cursor.lastrowid
 
+    def update_work(self, work: dict):
+        self.con.execute(sql.update_work, {'code': work['code'], 'json': json.dumps(work)})
+        self.con.commit()
+
     def get_works(self) -> str:
         """
         Retrieve the full list of works.
