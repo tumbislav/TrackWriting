@@ -1,6 +1,11 @@
-.limited-title {
+.work-name {
+  height: 60px;
   overflow: hidden;
-  height: 70px;
+}
+
+.reduced (
+  font-size: 70%;
+  font-weight: 400;
 }
 
 @media (min-width: 576px) {

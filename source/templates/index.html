@@ -23,7 +23,7 @@
       <div class="collapse navbar-collapse" id="topNavbar">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" id="reload-file" role="button" href="#">Reload <span class="fas fa-igloo"></span></a>
+            <a class="nav-link" id="reload-file" href="#">Reload <i class="fas fa-sync small"></i></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link <span class="fas fa-dice-d20"></span></a>
@@ -53,10 +53,18 @@
       <!-- the work card -->
       <template id="card-template">
         <div class="card mb-4 card-limited">
-          <div class="card-header bg-success limited-title">
-            <div class="dropdown dropright float-right">A</div>
-            <span id="work-title"></span>
-           </div>
+          <div class="card-header d-flex justify-content-between bg-success pr-3 pb-0">
+            <div id="work-title" class="mb-0 pb-0 pr-2 work-name"></div>
+            <div class="dropdown dropright">
+              <button type="button" class="btn btn-outline-light dropdown-toggle btn-sm pl-1 pb-0 pt-0" data-toggle="dropdown">
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Link 1</a>
+                <a class="dropdown-item" href="#">Link 2</a>
+                <a class="dropdown-item" href="#">Link 3</a>
+              </div>
+            </div>
+          </div>
           <div class="card-body pt-2 pb-0">
             <table class="table table-sm table-borderless mb-3">
               <tbody>

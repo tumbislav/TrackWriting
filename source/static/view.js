@@ -44,15 +44,6 @@ var writing = (function writing(self, $) {
   };
 
   self.CardsView.prototype = {
-/*    getWidthOfText(txt, fontname, fontsize){
-      if(getWidthOfText.c === undefined){
-          getWidthOfText.c=document.createElement('canvas');
-          getWidthOfText.ctx=getWidthOfText.c.getContext('2d');
-      }
-      getWidthOfText.ctx.font = fontsize + ' ' + fontname;
-      return getWidthOfText.ctx.measureText(txt).width;
-    },
-*/
     redisplay() {
       let works = this.adapter.getWorks();
       let prompt_ids = ['world-prompt',
@@ -73,7 +64,10 @@ var writing = (function writing(self, $) {
       for (let [row, work] of works.entries()) {
         let newCard = this.card_template.clone();
         newCard.find('#work-title').html(work.name);
-        if (work.name.length > 35) {
+        if (work.name.length > 50) {
+          newCard.find('#work-title').css("font-size","70%");
+        }
+        else if (work.name.length > 35) {
           newCard.find('#work-title').addClass('small');
         }
 
