@@ -31,6 +31,17 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Link 3</a>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="classifiers-dropdown" data-toggle="dropdown">
+              Classifiers
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Genres</a>
+              <a class="dropdown-item" href="#">Forms</a>
+              <a class="dropdown-item" href="#">Statuses</a>
+              <a class="dropdown-item" href="#">New classifier...</a>
+            </div>
+          </li>
         </ul>
       </div>
     </nav>
@@ -43,6 +54,7 @@
       <template id="card-template">
         <div class="card mb-4 card-limited">
           <div class="card-header bg-success limited-title">
+            <div class="dropdown dropright float-right">A</div>
             <span id="work-title"></span>
            </div>
           <div class="card-body pt-2 pb-0">
