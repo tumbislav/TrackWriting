@@ -21,22 +21,16 @@ def start_page():
     return render_template('index.html')
 
 
-@app.route('/diary', methods=['GET', 'POST'])
-def update_diary():
-    if request.method == 'GET':
-        return json.dumps([{'title': w['name'], 'count': w['word-count'], 'new-count': 0} for w in works]), 200, \
-                {'ContentType': 'application/json'}
-    elif request.method == 'POST':
-        return json.dumps(works), 200, {'ContentType': 'application/json'}
-
-
 @app.route('/import', methods=['GET'])
 def import_from_json():
     """
     Reload the model from a new or old file.
     """
-    load_from_json(db, JSON_SOURCE)
-    return ''
+    try:
+        load_from_json(db, JSON_SOURCE)
+        return '', 200
+    except Exception as e:
+        return json.dumps({'error': str(e)}), 500, {'ContentType': 'application/json'}
 
 
 @app.route('/works', methods=['GET', 'PUT'])

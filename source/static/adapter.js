@@ -30,7 +30,16 @@ var writing = (function writing(self, $) {
     self.Works.prototype = {
 
         import() {
-            $.get('/import', (data, status) => this.reload());
+            let _this = this;
+            $.get('/import', function(data, status, xhr) {
+                if (xhr.status == 200) {
+                    _this.reload();
+                }
+                else {
+                    let j = JSON.parse(xhr.responseText);
+                    alert(j.error);
+                }
+            });
         },
 
         attachView(view) {

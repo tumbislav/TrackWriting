@@ -23,7 +23,7 @@ var writing = (function writing(self, $) {
         this.sep5_template = $(this.deck.find('#card-sep-5').html());
 
         // user events that we handle
-        $('#reload-file').click(function () {
+        $('#reimport-file').click(function () {
             _this.adapter.import();
         });
 
@@ -68,7 +68,7 @@ var writing = (function writing(self, $) {
                 'tw-tag-count',
                 'tw-mnu-reimport'];
 
-            let prompt_values = this.adapter.translateList('ui', prompt_ids);
+            let prompt_values = this.adapter.translateList('ui-card', prompt_ids);
 
             for (let i = 0; i < prompt_ids.length; ++i) {
                 this.card_template.find('.' + prompt_ids[i]).html(prompt_values[i]);
