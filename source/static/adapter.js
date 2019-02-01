@@ -25,32 +25,35 @@ var writing = (function writing(self, $) {
         // initial load or reload
         this.onReload = new self.Event(this);
         this.onError = new self.Event(this);
+
     };
 
     // the main functionality
     self.Works.prototype = {
 
+        genericGet(ctx, endpoint) {
+            return $.ajax({
+                context: ctx,
+                type: 'GET',
+                url: endpoint,
+                dataType: 'json'
+            });
+        },
+
         import() {
+        /*
             $.ajax({
                 context: this,
                 type: 'GET',
                 url: '/import',
                 dataType: 'json'
-            }).done(function(data) {
+            })*/
+            this.genericGet(this, '/import').done(function(data) {
                 (data) => this.reload();
             }).fail(function(xhr, status, error) {
                 let details = JSON.parse(xhr.responseText);
                 this.onError.notify(error + ': ' + details['error']);
             });
-
-/*                success: function(data, status, xhr) {
-                    this.reload();
-                },
-                error: function(xhr, status, error) {
-                    let details = JSON.parse(xhr.responseText);
-                    this.onError.notify(error + ': ' + details['error']);
-                }
-            });*/
         },
 
         attachView(view) {
