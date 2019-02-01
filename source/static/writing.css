@@ -1,9 +1,9 @@
-.reduced {
+.tw-smaller {
   font-size: 70%;
   font-weight: 400;
 }
 
-.work-name {
+.tw-name {
   height: 60px;
   overflow: hidden;
 }
@@ -15,7 +15,7 @@
 }
 
 @media (min-width: 576px) {
-  .card-limited {
+  .tw-card {
     max-width: calc(50% - 30px)
   }
 }

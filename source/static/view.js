@@ -85,7 +85,7 @@ var writing = (function writing(self, $) {
                 let nameDiv = newCard.find('.tw-name');
                 nameDiv.html(work.name);
                 if (work.name.length > 50) {
-                    nameDiv.addClass('reduced');
+                    nameDiv.addClass('tw-smaller');
                 } else if (work.name.length > 35) {
                     nameDiv.addClass('small');
                 }

@@ -35,14 +35,22 @@ var writing = (function writing(self, $) {
                 context: this,
                 type: 'GET',
                 url: '/import',
-                success: function(data, status, xhr) {
+                dataType: 'json'
+            }).done(function(data) {
+                (data) => this.reload();
+            }).fail(function(xhr, status, error) {
+                let details = JSON.parse(xhr.responseText);
+                this.onError.notify(error + ': ' + details['error']);
+            });
+
+/*                success: function(data, status, xhr) {
                     this.reload();
                 },
                 error: function(xhr, status, error) {
                     let details = JSON.parse(xhr.responseText);
                     this.onError.notify(error + ': ' + details['error']);
                 }
-            });
+            });*/
         },
 
         attachView(view) {
