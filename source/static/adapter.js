@@ -31,24 +31,13 @@ var writing = (function writing(self, $) {
     // the main functionality
     self.Works.prototype = {
 
-        genericGet(ctx, endpoint) {
-            return $.ajax({
-                context: ctx,
-                type: 'GET',
-                url: endpoint,
-                dataType: 'json'
-            });
-        },
-
         import() {
-        /*
             $.ajax({
                 context: this,
                 type: 'GET',
                 url: '/import',
                 dataType: 'json'
-            })*/
-            this.genericGet(this, '/import').done(function(data) {
+            }).done(function(data) {
                 (data) => this.reload();
             }).fail(function(xhr, status, error) {
                 let details = JSON.parse(xhr.responseText);
@@ -75,14 +64,22 @@ var writing = (function writing(self, $) {
         reload() {
             let _this = this;
             $.when(
-                $.get('/works', function (data, status, xhr) {
+/*                $.get('/works', function (data, status, xhr) {
                     if (status == 'success') {
                         _this.works = data;
                     }
                     else {
-                        _this.onError.notify('GET /works '); // + xhr.statusText)
+                        _this.onError.notify('GET /works ');
                     }
-                }, 'json'),
+                }, 'json'),*/
+
+                $.get('/works', '', null, 'json')
+                .done(function(data) {
+                        _this.works = data;
+                })
+                .fail(function(xhr, status, error){
+                        _this.onError.notify('GET /works ');
+                }),
                 $.get('/classifiers', function (data, status, xhr) {
                     if (status == 'success') {
                         _this.classifiers = data;
