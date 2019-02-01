@@ -31,14 +31,16 @@ var writing = (function writing(self, $) {
     self.Works.prototype = {
 
         import() {
-            let _this = this;
-            $.get('/import', function(data, status, xhr) {
-                if (xhr.status == 200) {
-                    _this.reload();
-                }
-                else {
-                    let j = JSON.parse(xhr.responseText);
-                    alert(j.error);
+            $.ajax({
+                context: this,
+                type: 'GET',
+                url: '/import',
+                success: function(data, status, xhr) {
+                    this.reload();
+                },
+                error: function(xhr, status, error) {
+                    let details = JSON.parse(xhr.responseText);
+                    this.onError.notify(error + ': ' + details['error']);
                 }
             });
         },
@@ -67,7 +69,7 @@ var writing = (function writing(self, $) {
                         _this.works = data;
                     }
                     else {
-                        _this.onError.notify('GET /works ' + xhr.statusText)
+                        _this.onError.notify('GET /works '); // + xhr.statusText)
                     }
                 }, 'json'),
                 $.get('/classifiers', function (data, status, xhr) {
@@ -75,28 +77,29 @@ var writing = (function writing(self, $) {
                         _this.classifiers = data;
                     }
                     else {
-                        _this.onError.notify('GET /classifiers ' + xhr.statusText)
+                        _this.onError.notify('GET /classifiers '); //  + xhr.statusText)
                     }
                 }, 'json'),
-                $.get('/translations', function (response) function (data, status, xhr) {
+                $.get('/translations', function (data, status, xhr) {
                     if (status == 'success') {
                         _this.translations = data;
                         _this.prepareTranslation();
 
                     }
                     else {
-                        _this.onError.notify('GET /translations ' + xhr.statusText)
+                        _this.onError.notify('GET /translations '); //  + xhr.statusText)
                     }
-                }}, 'json')
+                }, 'json')
             ).then(function () {
                 _this.onReload.notify();
             });
         },
 
         prepareTranslation() {
-                if (_this.preferred_language != null &&
-                _this.translations.hasOwnProperty(_this.preferred_language)) {
-                _this.current_translation = _this.translations[_this.preferred_language];
+            if (this.preferred_language != null &&
+                    this.translations.hasOwnProperty(this.preferred_language)) {
+                this.current_translation = this.translations[this.preferred_language];
+            }
         },
 
         translationContext(context) {

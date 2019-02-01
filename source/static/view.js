@@ -52,7 +52,7 @@ var writing = (function writing(self, $) {
         };
 
         if (this.adapter.hasOwnProperty('onError')) {
-            this.adapter.onReload.attach((sender, data) => console.write(data))
+            this.adapter.onError.attach((sender, data) => console.log(data))
         };
 
         // finally, start the initial reload

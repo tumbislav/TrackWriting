@@ -28,7 +28,7 @@ def import_from_json():
     """
     try:
         load_from_json(db, JSON_SOURCE)
-        return '', 200
+        return '{}', 200, {'ContentType': 'application/json'}
     except Exception as e:
         return json.dumps({'error': str(e)}), 500, {'ContentType': 'application/json'}
 

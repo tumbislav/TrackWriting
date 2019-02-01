@@ -8,6 +8,12 @@
   overflow: hidden;
 }
 
+.tw-circle-menu {
+    height: 60px;
+    width: 60px;
+    corner-radius: 50%;
+}
+
 @media (min-width: 576px) {
   .card-limited {
     max-width: calc(50% - 30px)
@@ -15,19 +21,19 @@
 }
 
 @media (min-width: 768px) {
-  .card-limited {
+  .tw-card {
     max-width: calc(33% - 30px)
   }
 }
 
 @media (min-width: 992px) {
-  .card-limited {
+  .tw-card {
     max-width: calc(25% - 30px)
   }
 }
 
 @media (min-width: 1200px) {
-  .card-limited {
+  .tw-card {
     max-width: calc(20% - 30px)
   }
 }
