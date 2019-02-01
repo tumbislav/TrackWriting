@@ -16,30 +16,24 @@
   <div class="container">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top container">
       <a class="navbar-brand" href="#">TrackWriting</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tw-navbar">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="topNavbar">
+      <div class="collapse navbar-collapse" id="tw-navbar">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link tw-mnu-reimport" id="reimport-file" href="#">Reimport</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link <span class="fas fa-dice-d20"></span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link 3</a>
+            <a class="nav-link" id="mnu-reimport" href="#">Reimport</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="classifiers-dropdown" data-toggle="dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="mnu-classifiers" data-toggle="dropdown">
               Classifiers
             </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Genres</a>
-              <a class="dropdown-item" href="#">Forms</a>
-              <a class="dropdown-item" href="#">Statuses</a>
-              <a class="dropdown-item" href="#">New classifier...</a>
+              <a class="dropdown-item" id="mnu-edit-genres" href="#">Genres</a>
+              <a class="dropdown-item" id="mnu-edit-forms" href="#">Forms</a>
+              <a class="dropdown-item" id="mnu-edit-statuses" href="#">Statuses</a>
+              <a class="dropdown-item" id="mnu-classifiers-new" href="#">New classifier...</a>
             </div>
           </li>
         </ul>

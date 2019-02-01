@@ -23,7 +23,7 @@ var writing = (function writing(self, $) {
         this.sep5_template = $(this.deck.find('#card-sep-5').html());
 
         // user events that we handle
-        $('#reimport-file').click(function () {
+        $('#mnu-reimport').click(function () {
             _this.adapter.import();
         });
 
@@ -49,6 +49,10 @@ var writing = (function writing(self, $) {
         // wire up the events we are interested in
         if (this.adapter.hasOwnProperty('onReload')) {
             this.adapter.onReload.attach((sender, data) => this.redisplay())
+        };
+
+        if (this.adapter.hasOwnProperty('onError')) {
+            this.adapter.onReload.attach((sender, data) => console.write(data))
         };
 
         // finally, start the initial reload

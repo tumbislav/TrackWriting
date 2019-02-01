@@ -24,6 +24,7 @@ var writing = (function writing(self, $) {
         // Events we generate ourselves.
         // initial load or reload
         this.onReload = new self.Event(this);
+        this.onError = new self.Event(this);
     };
 
     // the main functionality
@@ -61,21 +62,41 @@ var writing = (function writing(self, $) {
         reload() {
             let _this = this;
             $.when(
-                $.get('/works', function (response) {
-                    _this.works = JSON.parse(response);
-                }),
-                $.get('/classifiers', function (response) {
-                    _this.classifiers = JSON.parse(response);
-                }),
-                $.get('/translations', function (response) {
-                    _this.translations = JSON.parse(response);
-                    if (_this.preferred_language != null &&
-                        _this.translations.hasOwnProperty(_this.preferred_language)) {
-                        _this.current_translation = _this.translations[_this.preferred_language];
-                    }})
+                $.get('/works', function (data, status, xhr) {
+                    if (status == 'success') {
+                        _this.works = data;
+                    }
+                    else {
+                        _this.onError.notify('GET /works ' + xhr.statusText)
+                    }
+                }, 'json'),
+                $.get('/classifiers', function (data, status, xhr) {
+                    if (status == 'success') {
+                        _this.classifiers = data;
+                    }
+                    else {
+                        _this.onError.notify('GET /classifiers ' + xhr.statusText)
+                    }
+                }, 'json'),
+                $.get('/translations', function (response) function (data, status, xhr) {
+                    if (status == 'success') {
+                        _this.translations = data;
+                        _this.prepareTranslation();
+
+                    }
+                    else {
+                        _this.onError.notify('GET /translations ' + xhr.statusText)
+                    }
+                }}, 'json')
             ).then(function () {
                 _this.onReload.notify();
             });
+        },
+
+        prepareTranslation() {
+                if (_this.preferred_language != null &&
+                _this.translations.hasOwnProperty(_this.preferred_language)) {
+                _this.current_translation = _this.translations[_this.preferred_language];
         },
 
         translationContext(context) {

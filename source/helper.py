@@ -12,8 +12,8 @@ import os
 
 APP_VERSION = '0.1'
 FILES_ROOT = os.getenv('WRITING_ROOT')
-FILE_PATH = FILES_ROOT + 'test.db'
-JSON_SOURCE = FILES_ROOT + 'raw-track.json'
+FILE_PATH = os.path.join(FILES_ROOT, 'test.db')
+JSON_SOURCE = os.path.join(FILES_ROOT, 'raw-track.json')
 
 
 def load_from_json(db: Database, json_file: str):
