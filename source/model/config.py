@@ -116,7 +116,7 @@ class Configuration:
                 if key in target:
                     target = target[key]
                 else:
-                    raise YcError('Cannot locate branch {}'.format(branch))
+                    raise YcError('Cannot enum_combos branch {}'.format(branch))
 
         if the_patch is None:
             the_patch = load_yaml(file_name, resource, package)
